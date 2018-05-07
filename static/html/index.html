@@ -3,6 +3,8 @@
   <head>
     <title>Sulaimān</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   </head>
   <body>
     <div id="header">
@@ -12,6 +14,27 @@
     </div>
     <div id="content">
       <p><strong>Hello, world!</strong></p>
+
+      <ul id="photo_list">
+        <li v-for="photo in photoList">{{ photo.url }}</li>
+      </ul>
     </div>
+
+    <script>
+      $(function() {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:1323/list/1",
+          dataType: "json"
+        }).done(function(response, textStatus, jqXHR) {
+          let app = new Vue({
+            el: "#photo_list",
+            data: {
+              photoList: response.photos
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
