@@ -15,6 +15,8 @@ func main() {
 
 	e.Static("/css", "static/css")
 	e.Static("/js", "static/js")
+	e.Static("/img", "photos/img")
+	e.Static("/thumb", "photos/thumb")
 
 	e.GET("/list/:page", func(c echo.Context) error {
 		jsonFile := "list" + c.Param("page") + ".json"
