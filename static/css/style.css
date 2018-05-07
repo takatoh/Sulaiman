@@ -26,3 +26,13 @@ body {
   width: 900px;
   margin: auto;
 }
+
+#content table {
+  width: 850px;
+  margin: auto;
+  border-collapse: collapse;
+}
+
+#content table th, #content table td {
+  border: solid 1px gray;
+}
