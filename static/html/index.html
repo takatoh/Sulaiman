@@ -15,10 +15,13 @@
     <div id="content">
 
       <table id="photo_list">
-        <tr><th>Thumb</th><th>URL</th></tr>
+        <tr><th class="thunb_col">Thumb</th><th>URL</th></tr>
         <tr v-for="photo in photoList">
-          <td><a v-bind:href="photo.url" target="_blank">
-            <img v-bind:src="photo.thumb" /></a></td>
+          <td><div class="thumb_box">
+            <a v-bind:href="photo.url" target="_blank">
+              <img v-bind:src="photo.thumb" />
+            </a>
+          </div></td>
           <td>{{ photo.url }}</td>
         </tr>
       </table>

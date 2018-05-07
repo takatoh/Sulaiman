@@ -29,11 +29,21 @@ body {
 }
 
 #content table {
-  width: 850px;
   margin: auto;
   border-collapse: collapse;
 }
 
 #content table th, #content table td {
   border: solid 1px gray;
+  padding: 5px;
+}
+
+#content table .thubm_col {
+  width: 130px;
+}
+
+#content table td .thumb_box {
+  width: 120px;
+  height: 120px;
+  text-align: center;
 }
