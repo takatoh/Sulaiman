@@ -25,6 +25,7 @@ body {
 #content {
   width: 900px;
   margin: auto;
+  padding: 25px;
 }
 
 #content table {
