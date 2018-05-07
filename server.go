@@ -13,5 +13,7 @@ func main() {
 		return c.File("static/html/index.html")
 	})
 
+	e.Static("/css", "static/css")
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
