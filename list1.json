@@ -1,0 +1,27 @@
+{
+    "status": "OK",
+    "page": 1,
+    "next": true,
+    "photos": [
+        {
+            "url": "http://localhost:1323/img/img1.jpg",
+            "thumb": "http://localhost:1323/thumb/thumb1.jpg"
+        },
+        {
+            "url": "http://localhost:1323/img/img2.jpg",
+            "thumb": "http://localhost:1323/thumb/thumb2.jpg"
+        },
+        {
+            "url": "http://localhost:1323/img/img3.jpg",
+            "thumb": "http://localhost:1323/thumb/thumb3.jpg"
+        },
+        {
+            "url": "http://localhost:1323/img/img4.jpg",
+            "thumb": "http://localhost:1323/thumb/thumb4.jpg"
+        },
+        {
+            "url": "http://localhost:1323/img/img5.jpg",
+            "thumb": "http://localhost:1323/thumb/thumb5.jpg"
+        }
+    ]
+}
