@@ -15,5 +15,10 @@ func main() {
 
 	e.Static("/css", "static/css")
 
+	e.GET("/list/:page", func(c echo.Context) error {
+		jsonFile := "list" + c.Param("page") + ".json"
+		return c.File(jsonFile)
+	})
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
