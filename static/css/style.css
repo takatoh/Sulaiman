@@ -6,8 +6,12 @@ body {
 }
 
 #header {
+  width: 100%;
   height: 120px;
   border-bottom: gray solid 1px;
+  position: fixed;
+  top: 0;
+  background-color: white;
 }
 
 #header #header_content {
@@ -25,6 +29,7 @@ body {
 #content {
   width: 900px;
   margin: auto;
+  margin-top: 150px;
   padding: 25px;
 }
 
