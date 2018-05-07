@@ -18,7 +18,7 @@
       <table id="photo_list">
         <tr><th>Thumb</th><th>URL</th></tr>
         <tr v-for="photo in photoList">
-          <td>{{ photo.thumb }}</td>
+          <td><a v-bind:href="photo.url">{{ photo.thumb }}</a></td>
           <td>{{ photo.url }}</td>
         </tr>
       </table>
