@@ -15,19 +15,24 @@
     <div id="content">
       <p><strong>Hello, world!</strong></p>
 
-      <ul id="photo_list">
-        <li v-for="photo in photoList">{{ photo.url }}</li>
-      </ul>
+      <table id="photo_list">
+        <tr><th>Thumb</th><th>URL</th></tr>
+        <tr v-for="photo in photoList">
+          <td>{{ photo.thumb }}</td>
+          <td>{{ photo.url }}</td>
+        </tr>
+      </table>
     </div>
 
     <script>
+      let app;
       $(function() {
         $.ajax({
           type: "GET",
           url: "http://localhost:1323/list/1",
           dataType: "json"
         }).done(function(response, textStatus, jqXHR) {
-          let app = new Vue({
+          app = new Vue({
             el: "#photo_list",
             data: {
               photoList: response.photos
