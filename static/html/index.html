@@ -30,7 +30,7 @@
 
     <script>
       let app;
-      $(function() {
+      document.addEventListener("DOMContentLoaded", function() {
         $.ajax({
           type: "GET",
           url: "http://localhost:1323/list/1",
@@ -43,7 +43,7 @@
             }
           });
         });
-      });
+      }, false);
     </script>
   </body>
 </html>
