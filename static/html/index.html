@@ -12,8 +12,8 @@
         <h1>Sulaimān</h1>
       </div>
     </div>
-    <div id="content">
 
+    <div id="content">
       <table id="photo_list">
         <tr><th class="thunb_col">Thumb</th><th>URL</th></tr>
         <tr v-for="photo in photoList">
@@ -26,22 +26,27 @@
         </tr>
       </table>
 
+      <div>
+        <a id="next_link" href="http://localhost:1323/list/1">Next</a>
+      </div>
     </div>
 
     <script>
       let app;
       document.addEventListener("DOMContentLoaded", function() {
+        let next_url = $("#next_link").attr("href");
         $.ajax({
           type: "GET",
-          url: "http://localhost:1323/list/1",
+          url: next_url,
           dataType: "json"
         }).done(function(response, textStatus, jqXHR) {
           app = new Vue({
-            el: "#photo_list",
+            el: "#content",
             data: {
               photoList: response.photos
             }
           });
+          $("#next_link").attr("href", response.next);
         });
       }, false);
     </script>
