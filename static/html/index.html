@@ -26,29 +26,46 @@
         </tr>
       </table>
 
-      <div>
-        <a id="next_link" href="http://localhost:1323/list/1">Next</a>
-      </div>
+      <a id="next_link" href="http://localhost:1323/list/1">Next</a>
     </div>
 
     <script>
       let app;
-      document.addEventListener("DOMContentLoaded", function() {
+      let photoList;
+      $(function() {
+
         let next_url = $("#next_link").attr("href");
         $.ajax({
           type: "GET",
           url: next_url,
           dataType: "json"
         }).done(function(response) {
+          photoList = response.photos;
           app = new Vue({
             el: "#content",
             data: {
-              photoList: response.photos
+              photoList: photoList
             }
           });
           $("#next_link").attr("href", response.next);
         });
-      }, false);
+
+        $("body").on("click", "#next_link", function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          let next_url = $("#next_link").attr("href");
+          $.ajax({
+            type: "GET",
+            url: next_url,
+            dataType: "json"
+          }).done(function(response) {
+            response.photos.forEach(function(v) {
+              photoList.push(v);
+            });
+            $("#next_link").attr("href", response.next);
+          });
+        });
+      });
     </script>
   </body>
 </html>
