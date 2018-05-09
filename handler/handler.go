@@ -4,8 +4,13 @@ import (
 	"os"
 	"io"
 	"net/http"
+	"image"
+	"image/jpeg"
+	_ "image/png"
+	_ "image/gif"
 
 	"github.com/labstack/echo"
+	"github.com/nfnt/resize"
 )
 
 func IndexGet(c echo.Context) error {
@@ -25,16 +30,17 @@ func UploadPost(c echo.Context) error {
 	dst, _ := os.Create("photos/img/img101.jpg")
 	defer dst.Close()
 
-	if _, err := io.Copy(dst, src); err != nil {
-		return err
-	}
+	_, _ = io.Copy(dst, src)
+
+	img := "img/img101.jpg"
+	thumb := makeThumbnail(img)
 
 	res := UploadResponse{
 		Status: "OK",
 		Photo: Photo{
 			ID: 101,
-			Url: "http://localhost:1323/img/img101.jpg",
-			Thumb: "http://localhost:1323/thumb/thumb101.jpg",
+			Url: "http://localhost:1323/" + img,
+			Thumb: "http://localhost:1323/" + thumb,
 		},
 	}
 
@@ -50,4 +56,17 @@ type Photo struct {
 	ID    int    `json:"id"`
 	Url   string `json:"url"`
 	Thumb string `json:"thumb"`
+}
+
+func makeThumbnail(src_file string) string {
+	src, _ := os.Open("photos/" + src_file)
+	defer src.Close()
+
+	img, _, _ := image.Decode(src)
+	resized_img := resize.Resize(120, 120, img, resize.Lanczos3)
+	thumb, _ := os.Create("photos/thumb/thumb101.jpg")
+	jpeg.Encode(thumb, resized_img, nil)
+	thumb.Close()
+
+	return "thumb/thumb101.jpg"
 }
