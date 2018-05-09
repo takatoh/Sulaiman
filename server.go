@@ -4,24 +4,21 @@ import (
 //	"net/http"
 
 	"github.com/labstack/echo"
+
+	"github.com/takatoh/sulaiman/handler"
 )
 
 func main() {
 	e := echo.New()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.File("static/html/index.html")
-	})
+	e.GET("/", handler.IndexGet)
 
 	e.Static("/css", "static/css")
 	e.Static("/js", "static/js")
 	e.Static("/img", "photos/img")
 	e.Static("/thumb", "photos/thumb")
 
-	e.GET("/list/:page", func(c echo.Context) error {
-		jsonFile := "list" + c.Param("page") + ".json"
-		return c.File(jsonFile)
-	})
+	e.GET("/list/:page", handler.ListGet)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
