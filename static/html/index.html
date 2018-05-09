@@ -85,7 +85,7 @@
             processData: false,
             dataType: "json"
           }).done(function(response) {
-            alert(response.photo.url);
+            photoList.unshift(response.photo);
           });
         });
       });
