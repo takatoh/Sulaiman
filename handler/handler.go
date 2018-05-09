@@ -62,8 +62,16 @@ func makeThumbnail(src_file string) string {
 	src, _ := os.Open("photos/" + src_file)
 	defer src.Close()
 
+	config, _, _ := image.DecodeConfig(src)
+	src.Seek(0, 0)
 	img, _, _ := image.Decode(src)
-	resized_img := resize.Resize(120, 120, img, resize.Lanczos3)
+
+	var resized_img image.Image
+	if config.Width >= config.Height {
+		resized_img = resize.Resize(120, 0, img, resize.Lanczos3)
+	} else {
+		resized_img = resize.Resize(0, 120, img, resize.Lanczos3)
+	}
 	thumb, _ := os.Create("photos/thumb/thumb101.jpg")
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
