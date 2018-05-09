@@ -85,6 +85,8 @@
             processData: false,
             dataType: "json"
           }).done(function(response) {
+            $("input[name=file]").val("");
+            $("input[name=key]").val("");
             photoList.unshift(response.photo);
           });
         });
