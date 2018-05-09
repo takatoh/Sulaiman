@@ -33,7 +33,7 @@ func (h *Handler) IndexGet(c echo.Context) error {
 
 func (h *Handler) ListGet(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
-	offset := page - 1
+	offset := (page - 1) * 10
 	var photos []data.Photo
 	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
 
@@ -56,18 +56,25 @@ func (h *Handler) UploadPost(c echo.Context) error {
 	src, _ := file.Open()
 	defer src.Close()
 
-	dst, _ := os.Create("photos/img/img101.jpg")
+	var lastPhoto data.Photo
+	h.db.Last(&lastPhoto)
+	newId := int(lastPhoto.ID) + 1
+	img := "img/img" + strconv.Itoa(newId) + ".jpg"
+
+	dst, _ := os.Create("photos/" + img)
 	defer dst.Close()
 
 	_, _ = io.Copy(dst, src)
 
-	img := "img/img101.jpg"
-	thumb := makeThumbnail(img)
+	thumb := makeThumbnail(img, newId)
+
+	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb }
+	h.db.Create(&newPhoto)
 
 	res := UploadResponse{
 		Status: "OK",
 		Photo: Photo{
-			ID: 101,
+			ID: newPhoto.ID,
 			Url: "http://localhost:1323/" + img,
 			Thumb: "http://localhost:1323/" + thumb,
 		},
@@ -102,7 +109,7 @@ func newPhoto(id uint, img, thumb string) *Photo {
 	return p
 }
 
-func makeThumbnail(src_file string) string {
+func makeThumbnail(src_file string, id int) string {
 	src, _ := os.Open("photos/" + src_file)
 	defer src.Close()
 
@@ -116,9 +123,10 @@ func makeThumbnail(src_file string) string {
 	} else {
 		resized_img = resize.Resize(0, 120, img, resize.Lanczos3)
 	}
-	thumb, _ := os.Create("photos/thumb/thumb101.jpg")
+	thumb_file := "thumb/thumb" + strconv.Itoa(id) + ".jpg"
+	thumb, _ := os.Create("photos/" + thumb_file)
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
 
-	return "thumb/thumb101.jpg"
+	return thumb_file
 }
