@@ -19,6 +19,7 @@ func main() {
 	e.Static("/thumb", "photos/thumb")
 
 	e.GET("/list/:page", handler.ListGet)
+	e.POST("/upload", handler.UploadPost)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
