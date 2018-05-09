@@ -51,6 +51,10 @@ body {
   width: 130px;
 }
 
+#content table .url_col {
+  width: 450px;
+}
+
 #content table td .thumb_box {
   width: 120px;
   height: 120px;

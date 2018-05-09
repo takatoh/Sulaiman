@@ -25,7 +25,7 @@
 
     <div id="content">
       <table id="photo_list">
-        <tr><th class="thunb_col">Thumb</th><th>URL</th></tr>
+        <tr><th class="thunb_col">Thumb</th><th class="url_col">URL</th></tr>
         <tr v-for="photo in photoList">
           <td><div class="thumb_box">
             <a v-bind:href="photo.url" target="_blank">
