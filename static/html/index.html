@@ -18,7 +18,7 @@
           <input type="file" name="file"><br />
           <label>Key</label>
           <input type="text" name="key"><br />
-          <button type="button">UPLOAD</button>
+          <button type="button" id="upload_button">UPLOAD</button>
         </form>
       </div>
     </div>
@@ -43,7 +43,6 @@
       let app;
       let photoList;
       $(function() {
-
         let next_url = $("#next_link").attr("href");
         $.ajax({
           type: "GET",
@@ -73,6 +72,20 @@
               photoList.push(v);
             });
             $("#next_link").attr("href", response.next);
+          });
+        });
+
+        $("#upload_button").on("click", function(event) {
+          let fd = new FormData($("#upload_form").get(0));
+          $.ajax({
+            url: "http://localhost:1323/upload",
+            type: "POST",
+            data: fd,
+            contentType: false,
+            processData: false,
+            dataType: "json"
+          }).done(function(response) {
+            alert(response.photo.url);
           });
         });
       });
