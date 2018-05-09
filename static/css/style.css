@@ -26,6 +26,10 @@ body {
   font-family: 'Times New Roman', serif
 }
 
+#header #upload_form_box {
+  padding: 20px;
+}
+
 #content {
   width: 900px;
   margin: auto;
