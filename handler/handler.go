@@ -10,19 +10,30 @@ import (
 	_ "image/gif"
 
 	"github.com/labstack/echo"
+	"github.com/jinzhu/gorm"
 	"github.com/nfnt/resize"
 )
 
-func IndexGet(c echo.Context) error {
+type Handler struct {
+	db *gorm.DB
+}
+
+func New(db *gorm.DB) *Handler {
+	p := new(Handler)
+	p.db = db
+	return p
+}
+
+func (h *Handler) IndexGet(c echo.Context) error {
 	return c.File("static/html/index.html")
 }
 
-func ListGet(c echo.Context) error {
+func (h *Handler) ListGet(c echo.Context) error {
 	jsonFile := "list" + c.Param("page") + ".json"
 		return c.File(jsonFile)
 }
 
-func UploadPost(c echo.Context) error {
+func (h *Handler) UploadPost(c echo.Context) error {
 	file, _ := c.FormFile("file")
 	src, _ := file.Open()
 	defer src.Close()
