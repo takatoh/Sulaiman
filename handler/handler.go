@@ -8,10 +8,13 @@ import (
 	"image/jpeg"
 	_ "image/png"
 	_ "image/gif"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
 	"github.com/nfnt/resize"
+
+	"github.com/takatoh/sulaiman/data"
 )
 
 type Handler struct {
@@ -29,8 +32,23 @@ func (h *Handler) IndexGet(c echo.Context) error {
 }
 
 func (h *Handler) ListGet(c echo.Context) error {
-	jsonFile := "list" + c.Param("page") + ".json"
-		return c.File(jsonFile)
+	page, _ := strconv.Atoi(c.Param("page"))
+	offset := page - 1
+	var photos []data.Photo
+	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
+
+	var resPhotos []*Photo
+	for _, p := range photos {
+		resPhotos = append(resPhotos, newPhoto(p.ID, p.ImagePath, p.ThumbPath))
+	}
+	res := ListResponse{
+		Status: "OK",
+		Page: page,
+		Next: "/list/" + strconv.Itoa(page + 1),
+		Photos: resPhotos,
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
 
 func (h *Handler) UploadPost(c echo.Context) error {
@@ -58,15 +76,30 @@ func (h *Handler) UploadPost(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+type ListResponse struct {
+	Status string   `json:"status"`
+	Page   int      `json:"page"`
+	Next   string   `json:"next"`
+	Photos []*Photo `json:"photos"`
+}
+
 type UploadResponse struct {
 	Status string `json:"status"`
 	Photo  Photo  `json:"photo"`
 }
 
 type Photo struct {
-	ID    int    `json:"id"`
+	ID    uint   `json:"id"`
 	Url   string `json:"url"`
 	Thumb string `json:"thumb"`
+}
+
+func newPhoto(id uint, img, thumb string) *Photo {
+	p := new(Photo)
+	p.ID = id
+	p.Url = "http://localhost:1323/" + img
+	p.Thumb = "http://localhost:1323/" + thumb
+	return p
 }
 
 func makeThumbnail(src_file string) string {
