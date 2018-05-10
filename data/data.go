@@ -8,4 +8,5 @@ type Photo struct {
 	gorm.Model
 	ImagePath string
 	ThumbPath string
+	DeleteKey string
 }

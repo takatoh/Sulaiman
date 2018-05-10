@@ -68,7 +68,8 @@ func (h *Handler) UploadPost(c echo.Context) error {
 
 	thumb := makeThumbnail(img, newId)
 
-	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb }
+	deleteKey := c.FormValue("key")
+	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb, DeleteKey: deleteKey }
 	h.db.Create(&newPhoto)
 
 	res := UploadResponse{
