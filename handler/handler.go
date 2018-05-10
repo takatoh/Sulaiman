@@ -9,6 +9,7 @@ import (
 	_ "image/png"
 	_ "image/gif"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -53,13 +54,16 @@ func (h *Handler) ListGet(c echo.Context) error {
 
 func (h *Handler) UploadPost(c echo.Context) error {
 	file, _ := c.FormFile("file")
+	filename := file.Filename
 	src, _ := file.Open()
 	defer src.Close()
 
 	var lastPhoto data.Photo
 	h.db.Last(&lastPhoto)
 	newId := int(lastPhoto.ID) + 1
-	img := "img/img" + strconv.Itoa(newId) + ".jpg"
+	pos := strings.LastIndex(filename, ".")
+	ext := filename[pos:]
+	img := "img/img" + strconv.Itoa(newId) + ext
 
 	dst, _ := os.Create("photos/" + img)
 	defer dst.Close()
