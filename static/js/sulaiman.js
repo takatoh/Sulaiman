@@ -34,18 +34,25 @@ $(function() {
   });
 
   $("#upload_button").on("click", function(event) {
-    let fd = new FormData($("#upload_form").get(0));
-    $.ajax({
-      url: "http://localhost:1323/upload",
-      type: "POST",
-      data: fd,
-      contentType: false,
-      processData: false,
-      dataType: "json"
-    }).done(function(response) {
+    let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
+    if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
+      alert("Unsupported format!");
       $("input[name=file]").val("");
       $("input[name=key]").val("");
-      photoList.unshift(response.photo);
-    });
+    } else {
+      let fd = new FormData($("#upload_form").get(0));
+      $.ajax({
+        url: "http://localhost:1323/upload",
+        type: "POST",
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "json"
+      }).done(function(response) {
+        $("input[name=file]").val("");
+        $("input[name=key]").val("");
+        photoList.unshift(response.photo);
+      });
+    }
   });
 });
