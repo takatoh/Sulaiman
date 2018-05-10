@@ -29,7 +29,11 @@ $(function() {
       response.photos.forEach(function(v) {
         photoList.push(v);
       });
-      $("#next_link").attr("href", response.next);
+      if (response.next) {
+        $("#next_link").attr("href", response.next);
+      } else {
+        $("#next_link").remove();
+      }
     });
   });
 

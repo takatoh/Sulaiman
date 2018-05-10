@@ -42,10 +42,16 @@ func (h *Handler) ListGet(c echo.Context) error {
 	for _, p := range photos {
 		resPhotos = append(resPhotos, newPhoto(p.ID, p.ImagePath, p.ThumbPath))
 	}
+	var next string
+	if len(resPhotos) < 10 {
+		next = ""
+	} else {
+		next = "/list/" + strconv.Itoa(page + 1)
+	}
 	res := ListResponse{
 		Status: "OK",
 		Page: page,
-		Next: "/list/" + strconv.Itoa(page + 1),
+		Next: next,
 		Photos: resPhotos,
 	}
 
