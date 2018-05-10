@@ -36,7 +36,7 @@ $(function() {
   $("#upload_button").on("click", function(event) {
     let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
-      alert("Unsupported format!");
+      alert("Unsupported format!\nSupport only jpg, png, gif.");
       $("input[name=file]").val("");
       $("input[name=key]").val("");
     } else {
