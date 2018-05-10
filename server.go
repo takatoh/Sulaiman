@@ -1,8 +1,6 @@
 package main
 
 import (
-//	"net/http"
-
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
