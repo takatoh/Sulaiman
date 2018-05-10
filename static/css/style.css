@@ -60,3 +60,7 @@ body {
   height: 120px;
   text-align: center;
 }
+
+#content #next {
+  text-align: center;
+}
