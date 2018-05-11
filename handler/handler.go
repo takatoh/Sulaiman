@@ -92,8 +92,8 @@ func (h *Handler) UploadPost(c echo.Context) error {
 		Status: "OK",
 		Photo: Photo{
 			ID: newPhoto.ID,
-			Url: "http://localhost:1323/" + img,
-			Thumb: "http://localhost:1323/" + thumb,
+			Url: buildURL(img, h.config),
+			Thumb: buildURL(thumb, h.config),
 		},
 	}
 
@@ -146,4 +146,14 @@ func makeThumbnail(src_file string, id int) string {
 	thumb.Close()
 
 	return thumb_file
+}
+
+func buildURL(path string, config *data.Config) string {
+	var url string
+	if config.Port == 80 {
+		url = "http://" + config.HostName + "/"
+	} else {
+		url = "http://" + config.HostName + ":" + strconv.Itoa(config.Port) + "/"
+	}
+	return url + path
 }
