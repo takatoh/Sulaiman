@@ -37,8 +37,8 @@ func main() {
 
 	e.Static("/css", "static/css")
 	e.Static("/js", "static/js")
-	e.Static("/img", "photos/img")
-	e.Static("/thumb", "photos/thumb")
+	e.Static("/img", config.PhotoDir + "/img")
+	e.Static("/thumb", config.PhotoDir + "/thumb")
 
 	e.GET("/list/:page", h.List)
 	e.POST("/upload", h.Upload)
