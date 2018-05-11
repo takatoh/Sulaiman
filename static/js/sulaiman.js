@@ -1,6 +1,15 @@
 let app;
 let photoList;
 $(function() {
+  $.ajax({
+    type: "GET",
+    url: "/title",
+    dataType: "text"
+  }).done(function(response) {
+    $("head title").text(response)
+    $("h1").text(response);
+  });
+
   let next_url = $("#next_link").attr("href");
   $.ajax({
     type: "GET",
