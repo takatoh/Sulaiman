@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -42,5 +43,6 @@ func main() {
 	e.GET("/list/:page", h.ListGet)
 	e.POST("/upload", h.UploadPost)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	port := ":" + strconv.Itoa(config.Port)
+	e.Logger.Fatal(e.Start(port))
 }
