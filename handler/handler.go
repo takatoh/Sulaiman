@@ -44,11 +44,16 @@ func (h *Handler) List(c echo.Context) error {
 	var photos []data.Photo
 	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
 
-	var resPhotos []*Photo
+	var resPhotos []*ResPhoto
 	for _, p := range photos {
 		resPhotos = append(
 			resPhotos,
-			newPhoto(p.ID, buildURL(p.ImagePath, h.config), buildURL(p.ThumbPath, h.config)),
+			newResPhoto(
+				p.ID,
+				buildURL(p.ImagePath, h.config),
+				p.ImagePath,
+				p.ThumbPath,
+			),
 		)
 	}
 	var next string
@@ -93,10 +98,11 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	res := UploadResponse{
 		Status: "OK",
-		Photo: Photo{
+		Photo: ResPhoto{
 			ID: newPhoto.ID,
 			Url: buildURL(img, h.config),
-			Thumb: buildURL(thumb, h.config),
+			Img: "/" + img,
+			Thumb: "/" + thumb,
 		},
 	}
 
@@ -104,15 +110,15 @@ func (h *Handler) Upload(c echo.Context) error {
 }
 
 type ListResponse struct {
-	Status string   `json:"status"`
-	Page   int      `json:"page"`
-	Next   string   `json:"next"`
-	Photos []*Photo `json:"photos"`
+	Status string      `json:"status"`
+	Page   int         `json:"page"`
+	Next   string      `json:"next"`
+	Photos []*ResPhoto `json:"photos"`
 }
 
 type UploadResponse struct {
-	Status string `json:"status"`
-	Photo  Photo  `json:"photo"`
+	Status string    `json:"status"`
+	Photo  ResPhoto  `json:"photo"`
 }
 
 type ResPhoto struct {
@@ -122,10 +128,11 @@ type ResPhoto struct {
 	Thumb string `json:"thumb"`
 }
 
-func newPhoto(id uint, img, thumb string) *Photo {
-	p := new(Photo)
+func newResPhoto(id uint, url, img, thumb string) *ResPhoto {
+	p := new(ResPhoto)
 	p.ID = id
-	p.Url = img
+	p.Url = url
+	p.Img = img
 	p.Thumb = thumb
 	return p
 }
