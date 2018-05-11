@@ -29,7 +29,7 @@
         <tr><th class="thunb_col">Thumb</th><th class="url_col">URL</th></tr>
         <tr v-for="photo in photoList">
           <td><div class="thumb_box">
-            <a v-bind:href="photo.url" target="_blank">
+            <a v-bind:href="photo.img" target="_blank">
               <img v-bind:src="photo.thumb" />
             </a>
           </div></td>
