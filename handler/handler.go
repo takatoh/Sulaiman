@@ -19,12 +19,14 @@ import (
 )
 
 type Handler struct {
-	db *gorm.DB
+	db     *gorm.DB
+	config *data.Config
 }
 
-func New(db *gorm.DB) *Handler {
+func New(db *gorm.DB, config *data.Config) *Handler {
 	p := new(Handler)
 	p.db = db
+	p.config = config
 	return p
 }
 
@@ -33,7 +35,7 @@ func (h *Handler) IndexGet(c echo.Context) error {
 }
 
 func (h *Handler) TitleGet(c echo.Context) error {
-	return c.String(http.StatusOK, "Photo Uploader")
+	return c.String(http.StatusOK, h.config.SiteName)
 }
 
 func (h *Handler) ListGet(c echo.Context) error {
@@ -44,7 +46,10 @@ func (h *Handler) ListGet(c echo.Context) error {
 
 	var resPhotos []*Photo
 	for _, p := range photos {
-		resPhotos = append(resPhotos, newPhoto(p.ID, p.ImagePath, p.ThumbPath))
+		resPhotos = append(
+			resPhotos,
+			newPhoto(p.ID, buildURL(p.ImagePath, h.config), buildURL(p.ThumbPath, h.config)),
+		)
 	}
 	var next string
 	if len(resPhotos) < 10 {
@@ -75,12 +80,12 @@ func (h *Handler) UploadPost(c echo.Context) error {
 	ext := filename[pos:]
 	img := "img/img" + strconv.Itoa(newId) + ext
 
-	dst, _ := os.Create("photos/" + img)
+	dst, _ := os.Create(h.config.PhotoDir + "/" + img)
 	defer dst.Close()
 
 	_, _ = io.Copy(dst, src)
 
-	thumb := makeThumbnail(img, newId)
+	thumb := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
 	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb, DeleteKey: deleteKey }
@@ -90,8 +95,8 @@ func (h *Handler) UploadPost(c echo.Context) error {
 		Status: "OK",
 		Photo: Photo{
 			ID: newPhoto.ID,
-			Url: "http://localhost:1323/" + img,
-			Thumb: "http://localhost:1323/" + thumb,
+			Url: buildURL(img, h.config),
+			Thumb: buildURL(thumb, h.config),
 		},
 	}
 
@@ -119,12 +124,12 @@ type Photo struct {
 func newPhoto(id uint, img, thumb string) *Photo {
 	p := new(Photo)
 	p.ID = id
-	p.Url = "http://localhost:1323/" + img
-	p.Thumb = "http://localhost:1323/" + thumb
+	p.Url = img
+	p.Thumb = thumb
 	return p
 }
 
-func makeThumbnail(src_file string, id int) string {
+func makeThumbnail(photo_dir, src_file string, id int) string {
 	src, _ := os.Open("photos/" + src_file)
 	defer src.Close()
 
@@ -139,9 +144,19 @@ func makeThumbnail(src_file string, id int) string {
 		resized_img = resize.Resize(0, 120, img, resize.Lanczos3)
 	}
 	thumb_file := "thumb/thumb" + strconv.Itoa(id) + ".jpg"
-	thumb, _ := os.Create("photos/" + thumb_file)
+	thumb, _ := os.Create(photo_dir + "/" + thumb_file)
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
 
 	return thumb_file
+}
+
+func buildURL(path string, config *data.Config) string {
+	var url string
+	if config.Port == 80 {
+		url = "http://" + config.HostName + "/"
+	} else {
+		url = "http://" + config.HostName + ":" + strconv.Itoa(config.Port) + "/"
+	}
+	return url + path
 }

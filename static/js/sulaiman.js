@@ -55,7 +55,7 @@ $(function() {
     } else {
       let fd = new FormData($("#upload_form").get(0));
       $.ajax({
-        url: "http://localhost:1323/upload",
+        url: "/upload",
         type: "POST",
         data: fd,
         contentType: false,
