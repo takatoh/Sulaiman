@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"io/ioutil"
+
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
@@ -10,6 +13,13 @@ import (
 )
 
 func main() {
+	var config = new(data.Config)
+	jsonString, err := ioutil.ReadFile("config.json")
+	if err != nil {
+		panic(err)
+	}
+	json.Unmarshal(jsonString, config)
+
 	db, err := gorm.Open("sqlite3", "sulaiman.sqlite")
 	if err != nil {
 		panic(err)
@@ -19,7 +29,7 @@ func main() {
 	db.AutoMigrate(&data.Photo{})
 
 	e := echo.New()
-	h := handler.New(db)
+	h := handler.New(db, config)
 
 	e.GET("/", h.IndexGet)
 	e.GET("/title", h.TitleGet)
