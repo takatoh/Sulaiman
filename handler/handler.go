@@ -46,7 +46,10 @@ func (h *Handler) ListGet(c echo.Context) error {
 
 	var resPhotos []*Photo
 	for _, p := range photos {
-		resPhotos = append(resPhotos, newPhoto(p.ID, p.ImagePath, p.ThumbPath))
+		resPhotos = append(
+			resPhotos,
+			newPhoto(p.ID, buildURL(p.ImagePath, h.config), buildURL(p.ThumbPath, h.config)),
+		)
 	}
 	var next string
 	if len(resPhotos) < 10 {
@@ -121,8 +124,8 @@ type Photo struct {
 func newPhoto(id uint, img, thumb string) *Photo {
 	p := new(Photo)
 	p.ID = id
-	p.Url = "http://localhost:1323/" + img
-	p.Thumb = "http://localhost:1323/" + thumb
+	p.Url = img
+	p.Thumb = thumb
 	return p
 }
 
