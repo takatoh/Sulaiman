@@ -19,12 +19,14 @@ import (
 )
 
 type Handler struct {
-	db *gorm.DB
+	db     *gorm.DB
+	config *data.Config
 }
 
-func New(db *gorm.DB) *Handler {
+func New(db *gorm.DB, config *data.Config) *Handler {
 	p := new(Handler)
 	p.db = db
+	p.config = config
 	return p
 }
 
@@ -33,7 +35,7 @@ func (h *Handler) IndexGet(c echo.Context) error {
 }
 
 func (h *Handler) TitleGet(c echo.Context) error {
-	return c.String(http.StatusOK, "Photo Uploader")
+	return c.String(http.StatusOK, h.config.SiteName)
 }
 
 func (h *Handler) ListGet(c echo.Context) error {
