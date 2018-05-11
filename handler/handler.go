@@ -80,12 +80,12 @@ func (h *Handler) UploadPost(c echo.Context) error {
 	ext := filename[pos:]
 	img := "img/img" + strconv.Itoa(newId) + ext
 
-	dst, _ := os.Create("photos/" + img)
+	dst, _ := os.Create(h.config.PhotoDir + "/" + img)
 	defer dst.Close()
 
 	_, _ = io.Copy(dst, src)
 
-	thumb := makeThumbnail(img, newId)
+	thumb := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
 	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb, DeleteKey: deleteKey }
@@ -129,7 +129,7 @@ func newPhoto(id uint, img, thumb string) *Photo {
 	return p
 }
 
-func makeThumbnail(src_file string, id int) string {
+func makeThumbnail(photo_dir, src_file string, id int) string {
 	src, _ := os.Open("photos/" + src_file)
 	defer src.Close()
 
@@ -144,7 +144,7 @@ func makeThumbnail(src_file string, id int) string {
 		resized_img = resize.Resize(0, 120, img, resize.Lanczos3)
 	}
 	thumb_file := "thumb/thumb" + strconv.Itoa(id) + ".jpg"
-	thumb, _ := os.Create("photos/" + thumb_file)
+	thumb, _ := os.Create(photo_dir + "/" + thumb_file)
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
 
