@@ -115,9 +115,10 @@ type UploadResponse struct {
 	Photo  Photo  `json:"photo"`
 }
 
-type Photo struct {
+type ResPhoto struct {
 	ID    uint   `json:"id"`
 	Url   string `json:"url"`
+	Img   string `json:"img"`
 	Thumb string `json:"thumb"`
 }
 
