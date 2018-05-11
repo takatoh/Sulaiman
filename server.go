@@ -32,16 +32,16 @@ func main() {
 	e := echo.New()
 	h := handler.New(db, config)
 
-	e.GET("/", h.IndexGet)
-	e.GET("/title", h.TitleGet)
+	e.GET("/", h.Index)
+	e.GET("/title", h.Title)
 
 	e.Static("/css", "static/css")
 	e.Static("/js", "static/js")
 	e.Static("/img", "photos/img")
 	e.Static("/thumb", "photos/thumb")
 
-	e.GET("/list/:page", h.ListGet)
-	e.POST("/upload", h.UploadPost)
+	e.GET("/list/:page", h.List)
+	e.POST("/upload", h.Upload)
 
 	port := ":" + strconv.Itoa(config.Port)
 	e.Logger.Fatal(e.Start(port))

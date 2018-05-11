@@ -30,15 +30,15 @@ func New(db *gorm.DB, config *data.Config) *Handler {
 	return p
 }
 
-func (h *Handler) IndexGet(c echo.Context) error {
+func (h *Handler) Index(c echo.Context) error {
 	return c.File("static/html/index.html")
 }
 
-func (h *Handler) TitleGet(c echo.Context) error {
+func (h *Handler) Title(c echo.Context) error {
 	return c.String(http.StatusOK, h.config.SiteName)
 }
 
-func (h *Handler) ListGet(c echo.Context) error {
+func (h *Handler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
 	offset := (page - 1) * 10
 	var photos []data.Photo
@@ -67,7 +67,7 @@ func (h *Handler) ListGet(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *Handler) UploadPost(c echo.Context) error {
+func (h *Handler) Upload(c echo.Context) error {
 	file, _ := c.FormFile("file")
 	filename := file.Filename
 	src, _ := file.Open()
