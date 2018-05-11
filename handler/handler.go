@@ -32,6 +32,10 @@ func (h *Handler) IndexGet(c echo.Context) error {
 	return c.File("static/html/index.html")
 }
 
+func (h *Handler) TitleGet(c echo.Context) error {
+	return c.String(http.StatusOK, "Photo Uploader")
+}
+
 func (h *Handler) ListGet(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
 	offset := (page - 1) * 10
