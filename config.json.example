@@ -1,5 +1,6 @@
 {
     "site_name" : "Sulaimān",
     "host_name" : "localhost",
-    "port" : 1323
+    "port" : 1323,
+    "Photo_dir" : "photos"
 }
