@@ -153,11 +153,5 @@ func makeThumbnail(photo_dir, src_file string, id int) string {
 }
 
 func buildURL(path string, config *data.Config) string {
-	var url string
-	if config.Port == 80 {
-		url = "http://" + config.HostName + "/"
-	} else {
-		url = "http://" + config.HostName + ":" + strconv.Itoa(config.Port) + "/"
-	}
-	return url + path
+	return "http://" + config.HostName + "/" + path
 }
