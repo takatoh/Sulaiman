@@ -130,7 +130,7 @@ func newPhoto(id uint, img, thumb string) *Photo {
 }
 
 func makeThumbnail(photo_dir, src_file string, id int) string {
-	src, _ := os.Open("photos/" + src_file)
+	src, _ := os.Open(photo_dir + "/" + src_file)
 	defer src.Close()
 
 	config, _, _ := image.DecodeConfig(src)
