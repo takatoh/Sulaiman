@@ -22,6 +22,7 @@ func main() {
 	h := handler.New(db)
 
 	e.GET("/", h.IndexGet)
+	e.GET("/title", h.TitleGet)
 
 	e.Static("/css", "static/css")
 	e.Static("/js", "static/js")
