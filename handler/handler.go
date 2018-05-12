@@ -51,8 +51,8 @@ func (h *Handler) List(c echo.Context) error {
 			newResPhoto(
 				p.ID,
 				buildURL(p.ImagePath, h.config),
-				p.ImagePath,
-				p.ThumbPath,
+				"/" + p.ImagePath,
+				"/" + p.ThumbPath,
 			),
 		)
 	}
