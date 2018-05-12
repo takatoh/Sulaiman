@@ -98,12 +98,12 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	res := UploadResponse{
 		Status: "OK",
-		Photo: ResPhoto{
-			ID: newPhoto.ID,
-			Url: buildURL(img, h.config),
-			Img: "/" + img,
-			Thumb: "/" + thumb,
-		},
+		Photo: newResPhoto(
+			newPhoto.ID,
+			buildURL(img, h.config),
+			"/" + img,
+			"/" + thumb,
+		),
 	}
 
 	return c.JSON(http.StatusOK, res)
@@ -117,8 +117,8 @@ type ListResponse struct {
 }
 
 type UploadResponse struct {
-	Status string    `json:"status"`
-	Photo  ResPhoto  `json:"photo"`
+	Status string     `json:"status"`
+	Photo  *ResPhoto  `json:"photo"`
 }
 
 type ResPhoto struct {
