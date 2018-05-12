@@ -23,7 +23,11 @@ $(function() {
         photoList: photoList
       }
     });
-    $("#next_link").attr("href", response.next);
+    if (response.next) {
+      $("#next_link").attr("href", response.next);
+    } else {
+      $("#next_link").remove();
+    }
   });
 
   $("body").on("click", "#next_link", function(event) {
