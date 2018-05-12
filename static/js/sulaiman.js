@@ -35,9 +35,9 @@ $(function() {
       url: next_url,
       dataType: "json"
     }).done(function(response) {
-      response.photos.forEach(function(v) {
-        photoList.push(v);
-      });
+      if (response.photos) {
+        response.photos.forEach(function(v) { photoList.push(v); });
+      }
       if (response.next) {
         $("#next_link").attr("href", response.next);
       } else {
