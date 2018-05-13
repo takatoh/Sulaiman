@@ -16,7 +16,11 @@ $(function() {
     url: next_url,
     dataType: "json"
   }).done(function(response) {
-    photoList = response.photos;
+    if (response.photos) {
+      photoList = response.photos;
+    } else {
+      photoList = [];
+    }
     app = new Vue({
       el: "#content",
       data: {
