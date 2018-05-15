@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"strconv"
+	"flag"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -14,8 +15,11 @@ import (
 )
 
 func main() {
+	opt_config := flag.String("c", "config.json", "Specify config file.")
+	flag.Parse()
+
 	var config = new(data.Config)
-	jsonString, err := ioutil.ReadFile("config.json")
+	jsonString, err := ioutil.ReadFile(*opt_config)
 	if err != nil {
 		panic(err)
 	}
