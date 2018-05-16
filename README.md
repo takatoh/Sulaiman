@@ -7,6 +7,8 @@ A simple photo uploader.
 ## Install
 Github からクローンして
 ``` clone https://github.com/takatoh/sulaiman.git```
+依存ライブラリをインストールします。
+``` dep ensure```
 go build します。
 ``` go build```
 
