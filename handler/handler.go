@@ -10,6 +10,7 @@ import (
 	_ "image/gif"
 	"strconv"
 	"strings"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -109,6 +110,25 @@ func (h *Handler) Upload(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *Handler) Delete(c echo.Context) error {
+	var photo data.Photo
+	id, _ := strconv.Atoi(c.FormValue("id"))
+	fmt.Println(id)
+	deleteID := uint(id)
+	deleteKey := c.FormValue("key")
+	photo.ID = deleteID
+	photo.DeleteKey = deleteKey
+	h.db.First(&photo)
+	h.db.Delete(&photo)
+
+	res := DeleteResponse{
+		Status: "OK",
+		PhotoID: deleteID,
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
 type ListResponse struct {
 	Status string      `json:"status"`
 	Page   int         `json:"page"`
@@ -135,6 +155,11 @@ func newResPhoto(id uint, url, img, thumb string) *ResPhoto {
 	p.Img = img
 	p.Thumb = thumb
 	return p
+}
+
+type DeleteResponse struct {
+	Status  string `json:"status"`
+	PhotoID uint   `json:"photo_id"`
 }
 
 func makeThumbnail(photo_dir, src_file string, id int) string {
