@@ -76,4 +76,19 @@ $(function() {
       });
     }
   });
+
+  $("body").on("click", ".delete_button", function(event) {
+    let p = $(this).parent();
+    let fd = new FormData(p.get(0));
+    $.ajax({
+      url: "/delete",
+      type: "POST",
+      data: fd,
+      contentType: false,
+      processData: false,
+      dataType: "json"
+    }).done(function(response) {
+      alert("Deleted: " + response.photo_id);
+    });
+  });
 });
