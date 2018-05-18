@@ -118,6 +118,7 @@ func (h *Handler) Delete(c echo.Context) error {
 	h.db.First(&photo)
 	var res DeleteResponse
 	if photo.DeleteKey == deleteKey {
+		deletePhoto(photo, h.config)
 		h.db.Delete(&photo)
 		res = DeleteResponse{
 			Status: "OK",
@@ -190,4 +191,11 @@ func makeThumbnail(photo_dir, src_file string, id int) string {
 
 func buildURL(path string, config *data.Config) string {
 	return "http://" + config.HostName + "/" + path
+}
+
+func deletePhoto(photo data.Photo, config *data.Config) {
+	photo_dir := config.PhotoDir
+	os.Remove(photo_dir + "/" + photo.ImagePath)
+	os.Remove(photo_dir + "/" + photo.ThumbPath)
+	return
 }
