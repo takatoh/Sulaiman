@@ -10,7 +10,6 @@ import (
 	_ "image/gif"
 	"strconv"
 	"strings"
-	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -113,7 +112,6 @@ func (h *Handler) Upload(c echo.Context) error {
 func (h *Handler) Delete(c echo.Context) error {
 	var photo data.Photo
 	id, _ := strconv.Atoi(c.FormValue("id"))
-	fmt.Println(id)
 	deleteID := uint(id)
 	deleteKey := c.FormValue("key")
 	photo.ID = deleteID
