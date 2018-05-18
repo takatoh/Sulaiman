@@ -88,7 +88,11 @@ $(function() {
       processData: false,
       dataType: "json"
     }).done(function(response) {
-      alert("Deleted: " + response.photo_id);
+      if (response.status == "OK") {
+        alert("Deleted: " + response.photo_id);
+      } else {
+        alert("Error! CAN'T delete: " + response.photo_id)
+      }
     });
   });
 });
