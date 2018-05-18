@@ -91,6 +91,7 @@ $(function() {
       if (response.status == "OK") {
         alert("Deleted: " + response.photo_id);
       } else {
+        p.find("input[name=key]").val("");
         alert("Error! CAN'T delete: " + response.photo_id)
       }
     });
