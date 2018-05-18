@@ -43,7 +43,7 @@ func (h *Handler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
 	offset := (page - 1) * 10
 	var photos []data.Photo
-	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
+	h.db.Where("deleted_at IS NULL").Order("id desc").Offset(offset).Limit(10).Find(&photos)
 
 	var resPhotos []*ResPhoto
 	for _, p := range photos {
