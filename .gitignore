@@ -1,4 +1,5 @@
 *.json
 *.sqlite
+*.exe
 photos/
 vendor/
