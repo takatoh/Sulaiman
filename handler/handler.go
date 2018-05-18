@@ -10,6 +10,7 @@ import (
 	_ "image/gif"
 	"strconv"
 	"strings"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -42,6 +43,7 @@ func (h *Handler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
 	offset := (page - 1) * 10
 	var photos []data.Photo
+//	h.db.Where("deleted_at IS NULL").Order("id desc").Offset(offset).Limit(10).Find(&photos)
 	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
 
 	var resPhotos []*ResPhoto
@@ -109,6 +111,33 @@ func (h *Handler) Upload(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *Handler) Delete(c echo.Context) error {
+	var photo data.Photo
+	id, _ := strconv.Atoi(c.FormValue("id"))
+	deleteID := uint(id)
+	fmt.Println(deleteID)
+	deleteKey := c.FormValue("key")
+	fmt.Printf("%#v\n", deleteKey)
+	photo.ID = deleteID
+	h.db.First(&photo)
+	fmt.Printf("%#v\n", photo)
+	var res DeleteResponse
+	if photo.DeleteKey == deleteKey {
+		h.db.Delete(&photo)
+		res = DeleteResponse{
+			Status: "OK",
+			PhotoID: deleteID,
+		}
+	} else {
+		res = DeleteResponse{
+			Status: "NG",
+			PhotoID: deleteID,
+		}
+	}
+
+	return c.JSON(http.StatusOK, res)
+}
+
 type ListResponse struct {
 	Status string      `json:"status"`
 	Page   int         `json:"page"`
@@ -135,6 +164,11 @@ func newResPhoto(id uint, url, img, thumb string) *ResPhoto {
 	p.Img = img
 	p.Thumb = thumb
 	return p
+}
+
+type DeleteResponse struct {
+	Status  string `json:"status"`
+	PhotoID uint   `json:"photo_id"`
 }
 
 func makeThumbnail(photo_dir, src_file string, id int) string {
