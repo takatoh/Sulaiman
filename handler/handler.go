@@ -10,6 +10,7 @@ import (
 	_ "image/gif"
 	"strconv"
 	"strings"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -42,7 +43,8 @@ func (h *Handler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
 	offset := (page - 1) * 10
 	var photos []data.Photo
-	h.db.Where("deleted_at IS NULL").Order("id desc").Offset(offset).Limit(10).Find(&photos)
+//	h.db.Where("deleted_at IS NULL").Order("id desc").Offset(offset).Limit(10).Find(&photos)
+	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
 
 	var resPhotos []*ResPhoto
 	for _, p := range photos {
@@ -113,15 +115,24 @@ func (h *Handler) Delete(c echo.Context) error {
 	var photo data.Photo
 	id, _ := strconv.Atoi(c.FormValue("id"))
 	deleteID := uint(id)
+	fmt.Println(deleteID)
 	deleteKey := c.FormValue("key")
+	fmt.Printf("%#v\n", deleteKey)
 	photo.ID = deleteID
-	photo.DeleteKey = deleteKey
 	h.db.First(&photo)
-	h.db.Delete(&photo)
-
-	res := DeleteResponse{
-		Status: "OK",
-		PhotoID: deleteID,
+	fmt.Printf("%#v\n", photo)
+	var res DeleteResponse
+	if photo.DeleteKey == deleteKey {
+		h.db.Delete(&photo)
+		res = DeleteResponse{
+			Status: "OK",
+			PhotoID: deleteID,
+		}
+	} else {
+		res = DeleteResponse{
+			Status: "NG",
+			PhotoID: deleteID,
+		}
 	}
 
 	return c.JSON(http.StatusOK, res)
