@@ -78,9 +78,9 @@ func (h *Handler) Upload(c echo.Context) error {
 	src, _ := file.Open()
 	defer src.Close()
 
-	var lastPhoto data.Photo
-	h.db.Last(&lastPhoto)
-	newId := int(lastPhoto.ID) + 1
+	photo := data.Photo{}
+	h.db.Create(&photo)
+	newId := int(photo.ID)
 	pos := strings.LastIndex(filename, ".")
 	ext := filename[pos:]
 	img := "img/img" + strconv.Itoa(newId) + ext
@@ -93,13 +93,15 @@ func (h *Handler) Upload(c echo.Context) error {
 	thumb := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
-	newPhoto := data.Photo{ ImagePath: img, ThumbPath: thumb, DeleteKey: deleteKey }
-	h.db.Create(&newPhoto)
+	photo.ImagePath = img
+	photo.ThumbPath = thumb
+	photo.DeleteKey = deleteKey
+	h.db.Save(&photo)
 
 	res := UploadResponse{
 		Status: "OK",
 		Photo: newResPhoto(
-			newPhoto.ID,
+			photo.ID,
 			buildURL(img, h.config),
 			"/" + img,
 			"/" + thumb,
