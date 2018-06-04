@@ -46,7 +46,7 @@ func main() {
 
 	e.GET("/list/:page", h.List)
 	e.POST("/upload", h.Upload)
-	e.POST("/delete", h.Delete)
+	e.DELETE("/delete", h.Delete)
 
 	port := ":" + strconv.Itoa(config.Port)
 	e.Logger.Fatal(e.Start(port))

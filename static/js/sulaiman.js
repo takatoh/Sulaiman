@@ -82,7 +82,7 @@ $(function() {
     let fd = new FormData(p.get(0));
     $.ajax({
       url: "/delete",
-      type: "POST",
+      type: "DELETE",
       data: fd,
       contentType: false,
       processData: false,
