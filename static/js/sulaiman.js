@@ -6,7 +6,7 @@ $(function() {
     url: "/title",
     dataType: "text"
   }).done(function(response) {
-    $("head title").text(response)
+    $("head title").text(response);
     $("h1").text(response);
   });
 
@@ -98,7 +98,7 @@ $(function() {
         alert("Deleted: " + response.photo_id);
       } else {
         p.find("input[name=key]").val("");
-        alert("Error! CAN'T delete: " + response.photo_id)
+        alert("Error! CAN'T delete: " + response.photo_id);
       }
     });
   });
