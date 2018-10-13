@@ -7,7 +7,7 @@ A simple photo uploader.
 ## Install
 Github からクローンして
 
-``` clone https://github.com/takatoh/sulaiman.git```
+``` git clone https://github.com/takatoh/sulaiman.git```
 
 依存ライブラリをインストールします。
 
