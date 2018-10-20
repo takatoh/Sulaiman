@@ -48,6 +48,15 @@ body {
   padding: 5px;
 }
 
+#content table td a {
+  text-decoration: none;
+  color: black;
+}
+
+#content table td a:hover {
+  text-decoration: underline;
+}
+
 #content table .thubm_col {
   width: 130px;
 }
