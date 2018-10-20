@@ -38,7 +38,9 @@
               <img v-bind:src="photo.thumb" />
             </a>
           </div></td>
-          <td>{{ photo.url }}</td>
+          <td>
+            <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a>
+          </td>
           <td>
             <form class="delete_form">
               <input type="hidden" name="id" v-bind:value="photo.id">
