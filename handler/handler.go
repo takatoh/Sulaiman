@@ -156,7 +156,7 @@ type ResPhoto struct {
 	Url    string `json:"url"`
 	Img    string `json:"img"`
 	Thumb  string `json:"thumb"`
-	Posted time.Time `json:"posted"`
+	Posted string `json:"posted"`
 }
 
 func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
@@ -165,7 +165,7 @@ func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
 	p.Url = url
 	p.Img = img
 	p.Thumb = thumb
-	p.Posted = posted
+	p.Posted = posted.Format("2006-01-02 15:04:05 -07:00")
 	return p
 }
 
