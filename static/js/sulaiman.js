@@ -7,7 +7,7 @@ $(function() {
     dataType: "text"
   }).done(function(response) {
     $("head title").text(response)
-    $("h1").text(response);
+    $("h1 a").text(response);
   });
 
   let next_url = $("#next_link").attr("href");
