@@ -10,6 +10,7 @@ import (
 	_ "image/gif"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -53,6 +54,7 @@ func (h *Handler) List(c echo.Context) error {
 				buildURL(p.ImagePath, h.config),
 				"/" + p.ImagePath,
 				"/" + p.ThumbPath,
+				p.CreatedAt,
 			),
 		)
 	}
@@ -105,6 +107,7 @@ func (h *Handler) Upload(c echo.Context) error {
 			buildURL(img, h.config),
 			"/" + img,
 			"/" + thumb,
+			photo.CreatedAt,
 		),
 	}
 
@@ -149,18 +152,20 @@ type UploadResponse struct {
 }
 
 type ResPhoto struct {
-	ID    uint   `json:"id"`
-	Url   string `json:"url"`
-	Img   string `json:"img"`
-	Thumb string `json:"thumb"`
+	ID     uint   `json:"id"`
+	Url    string `json:"url"`
+	Img    string `json:"img"`
+	Thumb  string `json:"thumb"`
+	Posted time.Time `json:"posted"`
 }
 
-func newResPhoto(id uint, url, img, thumb string) *ResPhoto {
+func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
 	p := new(ResPhoto)
 	p.ID = id
 	p.Url = url
 	p.Img = img
 	p.Thumb = thumb
+	p.Posted = posted
 	return p
 }
 
