@@ -24,7 +24,12 @@ body {
   width: 450px;
   height: 120px;
   float: left;
-  font-family: 'Times New Roman', serif
+  font-family: 'Times New Roman', serif;
+}
+
+#header #header_content h1 a {
+  text-decoration: none;
+  color: black;
 }
 
 #header #upload_form_box {
