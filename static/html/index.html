@@ -39,7 +39,8 @@
             </a>
           </div></td>
           <td>
-            <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a>
+            <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
+            Posted: {{ photo.posted }}
           </td>
           <td>
             <form class="delete_form">
