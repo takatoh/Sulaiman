@@ -29,8 +29,8 @@
       <table id="photo_list">
         <tr>
           <th class="thunb_col">Thumb</th>
-          <th class="url_col">URL</th>
-          <th class="delete_col">DELETE</th>
+          <th class="url_col">Detail</th>
+          <th class="delete_col">Delete</th>
         </tr>
         <tr v-for="photo in photoList">
           <td><div class="thumb_box">
@@ -39,7 +39,7 @@
             </a>
           </div></td>
           <td>
-            <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
+            URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
             Posted: {{ photo.posted }}
           </td>
           <td>
