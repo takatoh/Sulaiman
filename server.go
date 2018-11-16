@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"strconv"
 	"flag"
 
@@ -14,9 +16,19 @@ import (
 	"github.com/takatoh/sulaiman/data"
 )
 
+const (
+	progVersion = "v1.2.1"
+)
+
 func main() {
 	opt_config := flag.String("c", "config.json", "Specify config file.")
+	opt_version := flag.Bool("v", false, "Show version.")
 	flag.Parse()
+
+	if *opt_version {
+		fmt.Println(progVersion)
+		os.Exit(0)
+	}
 
 	var config = new(data.Config)
 	jsonString, err := ioutil.ReadFile(*opt_config)
