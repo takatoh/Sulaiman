@@ -1,5 +1,7 @@
 let app;
 let photoList;
+let triggerFlag = false;
+
 $(function() {
   $.ajax({
     type: "GET",
@@ -34,6 +36,7 @@ $(function() {
     }
   });
 
+/*
   $("body").on("click", "#next_link", function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -52,6 +55,34 @@ $(function() {
         $("#next_link").remove();
       }
     });
+  });
+ */
+
+  $(window).on("load scroll", function() {
+    let documentHeight = $(document).height();
+    let scrollBottomPosition = $(window).height() + $(window).scrollTop();
+    let triggerPoint = documentHeight - scrollBottomPosition;
+    if (!triggerFlag && triggerPoint <= 50) {
+      triggerFlag = true;
+      let next_url = $("#next_link").attr("href");
+      $.ajax({
+        type: "GET",
+        url: next_url,
+        dataType: "json"
+      }).done(function(response) {
+        if (response.photos) {
+          response.photos.forEach(function(v) { photoList.push(v); });
+        }
+        if (response.next) {
+          $("#next_link").attr("href", response.next);
+        } else {
+          $("#next_link").remove();
+        }
+      });
+    }
+    if (triggerPoint > 50) {
+      triggerFlag = false;
+    }
   });
 
   $("#upload_button").on("click", function(event) {
