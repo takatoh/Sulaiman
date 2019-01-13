@@ -60,6 +60,8 @@ func main() {
 	e.POST("/upload", h.Upload)
 	e.DELETE("/delete", h.Delete)
 
+	e.GET("/count", h.Count)
+
 	port := ":" + strconv.Itoa(config.Port)
 	e.Logger.Fatal(e.Start(port))
 }
