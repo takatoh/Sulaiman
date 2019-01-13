@@ -148,6 +148,20 @@ func (h *Handler) Count(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *Handler) First(c echo.Context) error {
+	var photo data.Photo
+	h.db.First(&photo)
+	res := newResPhoto(
+		photo.ID,
+		buildURL(photo.ImagePath, h.config),
+		"/" + photo.ImagePath,
+		"/" + photo.ThumbPath,
+		photo.CreatedAt,
+	)
+
+	return c.JSON(http.StatusOK, res)
+}
+
 type ListResponse struct {
 	Status string      `json:"status"`
 	Page   int         `json:"page"`
