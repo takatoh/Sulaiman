@@ -139,6 +139,15 @@ func (h *Handler) Delete(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *Handler) Count(c echo.Context) error {
+	var photos []data.Photo
+	var count int
+	h.db.Find(&photos).Count(&count)
+	res := CountResponse{Count: count}
+
+	return c.JSON(http.StatusOK, res)
+}
+
 type ListResponse struct {
 	Status string      `json:"status"`
 	Page   int         `json:"page"`
@@ -172,6 +181,10 @@ func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
 type DeleteResponse struct {
 	Status  string `json:"status"`
 	PhotoID uint   `json:"photo_id"`
+}
+
+type CountResponse struct {
+	Count int `json:"count"`
 }
 
 func makeThumbnail(photo_dir, src_file string, id int) string {
