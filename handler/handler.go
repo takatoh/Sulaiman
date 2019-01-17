@@ -100,6 +100,18 @@ func (h *Handler) Upload(c echo.Context) error {
 	photo.DeleteKey = deleteKey
 	h.db.Save(&photo)
 
+	var photos []data.Photo
+	var count int
+	var deletePhotoID int
+	h.db.Find(&photos).Count(&count)
+	if h.config.MaxPhotoCount > 0 {
+		if h.config.MaxPhotoCount > count {
+			var first data.Photo
+			h.db.First(&first)
+			deletePhotoID = first.ID
+		}
+	}
+
 	res := UploadResponse{
 		Status: "OK",
 		Photo: newResPhoto(
@@ -109,6 +121,7 @@ func (h *Handler) Upload(c echo.Context) error {
 			"/" + thumb,
 			photo.CreatedAt,
 		),
+		DeletePhotoID: deletePhotoID,
 	}
 
 	return c.JSON(http.StatusOK, res)
@@ -170,8 +183,9 @@ type ListResponse struct {
 }
 
 type UploadResponse struct {
-	Status string     `json:"status"`
-	Photo  *ResPhoto  `json:"photo"`
+	Status        string    `json:"status"`
+	Photo         *ResPhoto `json:"photo"`
+	DeletePhotoID int       `json:"delete_photo_id"`
 }
 
 type ResPhoto struct {
