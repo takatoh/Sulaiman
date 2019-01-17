@@ -102,7 +102,7 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	var photos []data.Photo
 	var count int
-	var deletePhotoID int
+	var deletePhotoID uint
 	h.db.Find(&photos).Count(&count)
 	if h.config.MaxPhotoCount > 0 {
 		if h.config.MaxPhotoCount > count {
@@ -185,7 +185,7 @@ type ListResponse struct {
 type UploadResponse struct {
 	Status        string    `json:"status"`
 	Photo         *ResPhoto `json:"photo"`
-	DeletePhotoID int       `json:"delete_photo_id"`
+	DeletePhotoID uint      `json:"delete_photo_id"`
 }
 
 type ResPhoto struct {
