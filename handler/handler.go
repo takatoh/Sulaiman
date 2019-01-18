@@ -109,6 +109,8 @@ func (h *Handler) Upload(c echo.Context) error {
 			var first data.Photo
 			h.db.First(&first)
 			deletePhotoID = first.ID
+			deletePhoto(first, h.config)
+			h.db.Delete(&first)
 		}
 	}
 
