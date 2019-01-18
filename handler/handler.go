@@ -105,7 +105,7 @@ func (h *Handler) Upload(c echo.Context) error {
 	var deletePhotoID uint
 	h.db.Find(&photos).Count(&count)
 	if h.config.MaxPhotoCount > 0 {
-		if h.config.MaxPhotoCount > count {
+		if count > h.config.MaxPhotoCount {
 			var first data.Photo
 			h.db.First(&first)
 			deletePhotoID = first.ID
