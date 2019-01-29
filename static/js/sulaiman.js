@@ -49,7 +49,7 @@ $(function() {
         dataType: "json"
       }).done(function(response) {
         if (response.photos) {
-          response.photos.forEach(function(v) { photoList.push(v); });
+          response.photos.forEach(function(v) { app.photoList.push(v); });
         }
         if (response.next) {
           $("#next_link").attr("href", response.next);
