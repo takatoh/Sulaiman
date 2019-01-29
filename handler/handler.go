@@ -100,6 +100,20 @@ func (h *Handler) Upload(c echo.Context) error {
 	photo.DeleteKey = deleteKey
 	h.db.Save(&photo)
 
+	var photos []data.Photo
+	var count int
+	var deletePhotoID uint
+	h.db.Find(&photos).Count(&count)
+	if h.config.MaxPhotoCount > 0 {
+		if count > h.config.MaxPhotoCount {
+			var first data.Photo
+			h.db.First(&first)
+			deletePhotoID = first.ID
+			deletePhoto(first, h.config)
+			h.db.Delete(&first)
+		}
+	}
+
 	res := UploadResponse{
 		Status: "OK",
 		Photo: newResPhoto(
@@ -109,6 +123,7 @@ func (h *Handler) Upload(c echo.Context) error {
 			"/" + thumb,
 			photo.CreatedAt,
 		),
+		DeletePhotoID: deletePhotoID,
 	}
 
 	return c.JSON(http.StatusOK, res)
@@ -139,6 +154,29 @@ func (h *Handler) Delete(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *Handler) Count(c echo.Context) error {
+	var photos []data.Photo
+	var count int
+	h.db.Find(&photos).Count(&count)
+	res := CountResponse{Count: count}
+
+	return c.JSON(http.StatusOK, res)
+}
+
+func (h *Handler) First(c echo.Context) error {
+	var photo data.Photo
+	h.db.First(&photo)
+	res := newResPhoto(
+		photo.ID,
+		buildURL(photo.ImagePath, h.config),
+		"/" + photo.ImagePath,
+		"/" + photo.ThumbPath,
+		photo.CreatedAt,
+	)
+
+	return c.JSON(http.StatusOK, res)
+}
+
 type ListResponse struct {
 	Status string      `json:"status"`
 	Page   int         `json:"page"`
@@ -147,8 +185,9 @@ type ListResponse struct {
 }
 
 type UploadResponse struct {
-	Status string     `json:"status"`
-	Photo  *ResPhoto  `json:"photo"`
+	Status        string    `json:"status"`
+	Photo         *ResPhoto `json:"photo"`
+	DeletePhotoID uint      `json:"delete_photo_id"`
 }
 
 type ResPhoto struct {
@@ -172,6 +211,10 @@ func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
 type DeleteResponse struct {
 	Status  string `json:"status"`
 	PhotoID uint   `json:"photo_id"`
+}
+
+type CountResponse struct {
+	Count int `json:"count"`
 }
 
 func makeThumbnail(photo_dir, src_file string, id int) string {
