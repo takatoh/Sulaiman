@@ -82,11 +82,8 @@ $(function() {
         $("input[name=file]").val("");
         $("input[name=key]").val("");
         photoList.unshift(response.photo);
-        alert(response.delete_photo_id);
         if (response.delete_photo_id > 0) {
-          alert(photoList[0].id);
           app.photoList = app.photoList.filter(function(p){
-            console.log(p.id != response.delete_photo_id);
             return p.id != response.delete_photo_id;
           });
         }
