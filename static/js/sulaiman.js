@@ -9,8 +9,7 @@ $(function() {
     let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
       alert("Unsupported format!\nSupport only jpg, png, gif.");
-      $("input[name=file]").val("");
-      $("input[name=key]").val("");
+      clear_upload_vals();
     } else {
       let fd = new FormData($("#upload_form").get(0));
       $.ajax({
@@ -21,8 +20,7 @@ $(function() {
         processData: false,
         dataType: "json"
       }).done(function(response) {
-        $("input[name=file]").val("");
-        $("input[name=key]").val("");
+        clear_upload_vals();
         photoList.unshift(response.photo);
         if (response.delete_photo_id > 0) {
           app.photoList = app.photoList.filter(function(p){
@@ -32,6 +30,11 @@ $(function() {
         upload_dialog.dialog("close");
       });
     }
+  }
+
+  function clear_upload_vals() {
+    $("input[name=file]").val("");
+    $("input[name=key]").val("");
   }
 
   $.ajax({
