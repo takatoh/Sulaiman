@@ -3,6 +3,8 @@ let photoList;
 let triggerFlag = false;
 
 $(function() {
+  let upload_dialog;
+
   function upload(event) {
     let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
@@ -62,6 +64,16 @@ $(function() {
     } else {
       $("#next_link").remove();
     }
+  });
+
+  upload_dialog = $("#upload_dialog").dialog({
+    autoOpen: false,
+    modal: true,
+    draggable: false
+  });
+
+  $("#upload").button().on("click", function() {
+    upload_dialog.dialog("open");
   });
 
   $(window).on("load scroll", function() {
