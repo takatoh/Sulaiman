@@ -69,7 +69,8 @@ $(function() {
   upload_dialog = $("#upload_dialog").dialog({
     autoOpen: false,
     modal: true,
-    draggable: false
+    draggable: false,
+    width: 350
   });
 
   $("#upload").button().on("click", function() {

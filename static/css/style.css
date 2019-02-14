@@ -36,6 +36,16 @@ body {
   padding: 20px;
 }
 
+label, input {
+  display: block;
+}
+
+fieldset {
+  padding: 0;
+  border: 0;
+  margin-top: 20px;
+}
+
 #content {
   width: 900px;
   margin: auto;
