@@ -4,6 +4,7 @@ let triggerFlag = false;
 
 $(function() {
   let upload_dialog;
+  let delete_dialog;
 
   function upload(event) {
     let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
@@ -86,6 +87,22 @@ $(function() {
 
   $("#upload").button().on("click", function() {
     upload_dialog.dialog("open");
+  });
+
+  delete_dialog = $("#delete_dialog").dialog({
+    autoOpen: false,
+    modal: true,
+    dragable: false,
+    width: 300,
+    buttons: {
+      Cancel: function() {
+        delete_dialog.dialog("close");
+      }
+    }
+  });
+
+  $("#delete").button().on("click", function() {
+    delete_dialog.dialog("open");
   });
 
   $(window).on("load scroll", function() {
