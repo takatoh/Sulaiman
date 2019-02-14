@@ -123,7 +123,7 @@ $(function() {
   delete_dialog = $("#delete_dialog").dialog({
     autoOpen: false,
     modal: true,
-    dragable: false,
+    draggable: false,
     width: 300,
     buttons: {
       Delete: delete_photo,
