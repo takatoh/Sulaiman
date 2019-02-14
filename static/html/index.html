@@ -36,11 +36,15 @@
     <div id="content">
       <table id="photo_list">
         <tr>
+          <th class="id_col">ID</th>
           <th class="thunb_col">Thumb</th>
           <th class="url_col">Details</th>
           <th class="delete_col">Delete</th>
         </tr>
         <tr v-for="photo in photoList">
+          <td>
+            {{ photo.id }}
+          </td>
           <td><div class="thumb_box">
             <a v-bind:href="photo.img" target="_blank">
               <img v-bind:src="photo.thumb" />
