@@ -38,6 +38,31 @@ $(function() {
     $("input[name=key]").val("");
   }
 
+  function delete_photo(event) {
+    let fd = FormData($("#delete_form").get(0));
+    $.ajax({
+      url: "/delete",
+      type: "DELETE",
+      data: fd,
+      contentType: false,
+      processData: false,
+      dataType: "json"
+    }).done(function(response) {
+      if (response.status == "OK") {
+        p.find("input[name=key]").val("");
+        photoList.some(function(v, i) {
+          if (v.id == response.photo_id) {
+            photoList.splice(i, 1);
+          }
+        });
+        alert("Deleted: " + response.photo_id);
+      } else {
+        p.find("input[name=key]").val("");
+        alert("Error! CAN'T delete: " + response.photo_id);
+      }
+    });
+  }
+
   $.ajax({
     type: "GET",
     url: "/title",
@@ -95,6 +120,7 @@ $(function() {
     dragable: false,
     width: 300,
     buttons: {
+      Delete: delete_photo,
       Cancel: function() {
         delete_dialog.dialog("close");
       }
