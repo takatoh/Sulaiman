@@ -40,6 +40,10 @@ label, input {
   display: block;
 }
 
+input.text {
+  margin-bottom: 12px;
+}
+
 fieldset {
   padding: 0;
   border: 0;
