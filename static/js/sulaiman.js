@@ -106,6 +106,7 @@ $(function() {
     autoOpen: false,
     modal: true,
     draggable: false,
+    resizable: false,
     width: 350,
     buttons: {
       Upload: upload,
@@ -124,6 +125,7 @@ $(function() {
     autoOpen: false,
     modal: true,
     draggable: false,
+    resizable: false,
     width: 300,
     buttons: {
       Delete: delete_photo,
