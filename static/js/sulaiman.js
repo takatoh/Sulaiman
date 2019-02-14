@@ -78,6 +78,7 @@ $(function() {
     buttons: {
       Upload: upload,
       Cancel: function() {
+        clear_upload_vals();
         upload_dialog.dialog("close");
       }
     }
