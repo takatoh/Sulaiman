@@ -166,6 +166,4 @@ $(function() {
       triggerFlag = false;
     }
   });
-
-  $("#upload_button").on("click", upload);
 });
