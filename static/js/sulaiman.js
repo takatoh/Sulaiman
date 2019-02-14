@@ -70,7 +70,13 @@ $(function() {
     autoOpen: false,
     modal: true,
     draggable: false,
-    width: 350
+    width: 350,
+    buttons: {
+      Upload: upload,
+      Cancel: function() {
+        upload_dialog.dialog("close");
+      }
+    }
   });
 
   $("#upload").button().on("click", function() {
