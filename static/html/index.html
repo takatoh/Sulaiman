@@ -35,9 +35,9 @@
     </div>
 
     <div id="delete_dialog" title="Delete photo">
-      <form class="delete_form">
+      <form id="delete_form">
         <label for="id">ID</label>
-        <input type="text" name="id" class="text ui-widget-content ui-corner-all">
+        <input type="number" name="id" class="text ui-widget-content ui-corner-all">
         <label for="key">Key</label>
         <input type="text" name="key" class="text ui-widget-content ui-corner-all">
       </form>
@@ -49,7 +49,7 @@
           <th class="id_col">ID</th>
           <th class="thunb_col">Thumb</th>
           <th class="url_col">Details</th>
-          <th class="delete_col">Delete</th>
+<!--          <th class="delete_col">Delete</th> -->
         </tr>
         <tr v-for="photo in photoList">
           <td>
@@ -64,14 +64,14 @@
             URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
             Posted: {{ photo.posted }}
           </td>
-          <td>
+<!--          <td>
             <form class="delete_form">
               <input type="hidden" name="id" v-bind:value="photo.id">
               <label for="key">Key</label>
               <input type="text" name="key" class="text ui-widget-content ui-corner-all">
               <button type="button" class="delete_button ui-widget ui-button ui-corner-all">DELETE</button>
             </form>
-        </tr>
+        </tr> -->
       </table>
 
       <div id="next">

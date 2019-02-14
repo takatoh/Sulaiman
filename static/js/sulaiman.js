@@ -39,7 +39,7 @@ $(function() {
   }
 
   function delete_photo(event) {
-    let fd = FormData($("#delete_form").get(0));
+    let fd = new FormData($("#delete_form").get(0));
     $.ajax({
       url: "/delete",
       type: "DELETE",
@@ -48,8 +48,10 @@ $(function() {
       processData: false,
       dataType: "json"
     }).done(function(response) {
+//      alert(response.status);
       if (response.status == "OK") {
-        p.find("input[name=key]").val("");
+//        p.find("input[name=key]").val("");
+        clear_delete_vals();
         photoList.some(function(v, i) {
           if (v.id == response.photo_id) {
             photoList.splice(i, 1);
@@ -60,7 +62,13 @@ $(function() {
         p.find("input[name=key]").val("");
         alert("Error! CAN'T delete: " + response.photo_id);
       }
+      delete_dialog.dialog("close");
     });
+  }
+
+  function clear_delete_vals() {
+    $("#delete_form input[name=id]").val("");
+    $("#delete_form input[name=key]").val("");
   }
 
   $.ajax({
@@ -122,6 +130,7 @@ $(function() {
     buttons: {
       Delete: delete_photo,
       Cancel: function() {
+        clear_delete_vals();
         delete_dialog.dialog("close");
       }
     }
@@ -160,6 +169,7 @@ $(function() {
 
   $("#upload_button").on("click", upload);
 
+/*
   $("body").on("click", ".delete_button", function(event) {
     let p = $(this).parent();
     let fd = new FormData(p.get(0));
@@ -185,4 +195,5 @@ $(function() {
       }
     });
   });
+*/
 });
