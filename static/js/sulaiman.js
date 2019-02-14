@@ -57,7 +57,7 @@ $(function() {
         });
         alert("Deleted: " + response.photo_id);
       } else {
-        p.find("input[name=key]").val("");
+        clear_delete_vals();
         alert("Error! CAN'T delete: " + response.photo_id);
       }
       delete_dialog.dialog("close");
