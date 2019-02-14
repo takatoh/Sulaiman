@@ -29,6 +29,7 @@ $(function() {
             return p.id != response.delete_photo_id;
           });
         }
+        upload_dialog.dialog("close");
       });
     }
   }
