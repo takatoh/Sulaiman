@@ -3,6 +3,34 @@ let photoList;
 let triggerFlag = false;
 
 $(function() {
+  function upload(event) {
+    let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
+    if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
+      alert("Unsupported format!\nSupport only jpg, png, gif.");
+      $("input[name=file]").val("");
+      $("input[name=key]").val("");
+    } else {
+      let fd = new FormData($("#upload_form").get(0));
+      $.ajax({
+        url: "/upload",
+        type: "POST",
+        data: fd,
+        contentType: false,
+        processData: false,
+        dataType: "json"
+      }).done(function(response) {
+        $("input[name=file]").val("");
+        $("input[name=key]").val("");
+        photoList.unshift(response.photo);
+        if (response.delete_photo_id > 0) {
+          app.photoList = app.photoList.filter(function(p){
+            return p.id != response.delete_photo_id;
+          });
+        }
+      });
+    }
+  }
+
   $.ajax({
     type: "GET",
     url: "/title",
@@ -63,33 +91,7 @@ $(function() {
     }
   });
 
-  $("#upload_button").on("click", function(event) {
-    let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
-    if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
-      alert("Unsupported format!\nSupport only jpg, png, gif.");
-      $("input[name=file]").val("");
-      $("input[name=key]").val("");
-    } else {
-      let fd = new FormData($("#upload_form").get(0));
-      $.ajax({
-        url: "/upload",
-        type: "POST",
-        data: fd,
-        contentType: false,
-        processData: false,
-        dataType: "json"
-      }).done(function(response) {
-        $("input[name=file]").val("");
-        $("input[name=key]").val("");
-        photoList.unshift(response.photo);
-        if (response.delete_photo_id > 0) {
-          app.photoList = app.photoList.filter(function(p){
-            return p.id != response.delete_photo_id;
-          });
-        }
-      });
-    }
-  });
+  $("#upload_button").on("click", upload);
 
   $("body").on("click", ".delete_button", function(event) {
     let p = $(this).parent();
