@@ -73,6 +73,10 @@ fieldset {
   padding: 5px;
 }
 
+#content table td.id_field {
+  text-align: center;
+}
+
 #content table td a {
   text-decoration: none;
   color: black;
