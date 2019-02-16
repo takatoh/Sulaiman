@@ -38,10 +38,6 @@ header #button_box {
   margin-left: 150px;
 }
 
-header #upload_form_box {
-  padding: 20px;
-}
-
 label, input {
   display: block;
 }
