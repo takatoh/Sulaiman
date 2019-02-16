@@ -3,7 +3,9 @@
   <head>
     <title></title>
     <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script>
     <script src="/js/sulaiman.js"></script>
   </head>
@@ -14,13 +16,30 @@
         <h1><a href="/"></a></h1>
       </div>
 
-      <div id="upload_form_box">
+      <div id="button_box">
+        <button id="upload" class="ui-button ui-widget ui-corner-all">UPLOAD</button>
+        <button id="delete" class="ui-button ui-widget ui-corner-all">DELETE</button>
+      </div>
+
+      <div id="upload_dialog" title="Upload photo">
         <form id="upload_form">
-          <label>File</label>
-          <input type="file" name="file"><br />
-          <label>Key</label>
-          <input type="text" name="key"><br />
-          <button type="button" id="upload_button">UPLOAD</button>
+          <fieldset>
+            <label for="file">File</label>
+            <input type="file" name="file" class="text ui-widget-content ui-corner-all">
+            <label for="key">Key</label>
+            <input type="text" name="key" class="text ui-widget-content ui-corner-all">
+          </fieldset>
+        </form>
+      </div>
+
+      <div id="delete_dialog" title="Delete photo">
+        <form id="delete_form">
+          <fieldset>
+            <label for="id">ID</label>
+            <input type="number" name="id" class="text ui-widget-content ui-corner-all">
+            <label for="key">Key</label>
+            <input type="text" name="key" class="text ui-widget-content ui-corner-all">
+          </fieldset>
         </form>
       </div>
     </div>
@@ -28,11 +47,14 @@
     <div id="content">
       <table id="photo_list">
         <tr>
+          <th class="id_col">ID</th>
           <th class="thunb_col">Thumb</th>
           <th class="url_col">Details</th>
-          <th class="delete_col">Delete</th>
         </tr>
         <tr v-for="photo in photoList">
+          <td>
+            {{ photo.id }}
+          </td>
           <td><div class="thumb_box">
             <a v-bind:href="photo.img" target="_blank">
               <img v-bind:src="photo.thumb" />
@@ -42,13 +64,6 @@
             URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
             Posted: {{ photo.posted }}
           </td>
-          <td>
-            <form class="delete_form">
-              <input type="hidden" name="id" v-bind:value="photo.id">
-              <label>Key</label>
-              <input type="text" name="key"><br />
-              <button type="button" class="delete_button">DELETE</button>
-            </form>
         </tr>
       </table>
 
