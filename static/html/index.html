@@ -46,25 +46,29 @@
 
     <div id="content">
       <table id="photo_list">
-        <tr>
-          <th class="id_col">ID</th>
-          <th class="thunb_col">Thumb</th>
-          <th class="url_col">Details</th>
-        </tr>
-        <tr v-for="photo in photoList">
-          <td class="id_field">
-            {{ photo.id }}
-          </td>
-          <td><div class="thumb_box">
-            <a v-bind:href="photo.img" target="_blank">
-              <img v-bind:src="photo.thumb" />
-            </a>
-          </div></td>
-          <td>
-            URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
-            Posted: {{ photo.posted }}
-          </td>
-        </tr>
+        <thead>
+          <tr>
+            <th class="id_col">ID</th>
+            <th class="thunb_col">Thumb</th>
+            <th class="url_col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="photo in photoList">
+            <td class="id_field">
+              {{ photo.id }}
+            </td>
+            <td><div class="thumb_box">
+              <a v-bind:href="photo.img" target="_blank">
+                <img v-bind:src="photo.thumb" />
+              </a>
+            </div></td>
+            <td>
+              URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
+              Posted: {{ photo.posted }}
+            </td>
+          </tr>
+        </tbody>
       </table>
 
       <div id="next">
