@@ -19,6 +19,10 @@ import (
 	"github.com/takatoh/sulaiman/data"
 )
 
+const (
+	photosPerPage = 25
+)
+
 type Handler struct {
 	db     *gorm.DB
 	config *data.Config
@@ -41,9 +45,9 @@ func (h *Handler) Title(c echo.Context) error {
 
 func (h *Handler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.Param("page"))
-	offset := (page - 1) * 10
+	offset := (page - 1) * photosPerPage
 	var photos []data.Photo
-	h.db.Order("id desc").Offset(offset).Limit(10).Find(&photos)
+	h.db.Order("id desc").Offset(offset).Limit(photosPerPage).Find(&photos)
 
 	var resPhotos []*ResPhoto
 	for _, p := range photos {
@@ -59,7 +63,7 @@ func (h *Handler) List(c echo.Context) error {
 		)
 	}
 	var next string
-	if len(resPhotos) < 10 {
+	if len(resPhotos) < photosPerPage {
 		next = ""
 	} else {
 		next = "/list/" + strconv.Itoa(page + 1)
