@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	progVersion = "v1.5.2"
+	progVersion = "v1.6.0"
 )
 
 func main() {
