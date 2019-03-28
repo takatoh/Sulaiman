@@ -60,6 +60,7 @@ func (h *Handler) List(c echo.Context) error {
 				"/" + p.ThumbPath,
 				p.Width,
 				p.Height,
+				p.FileSize,
 				p.CreatedAt,
 			),
 		)
@@ -134,6 +135,7 @@ func (h *Handler) Upload(c echo.Context) error {
 			"/" + thumb,
 			photo.Width,
 			photo.Height,
+			photo.FileSize,
 			photo.CreatedAt,
 		),
 		DeletePhotoID: deletePhotoID,
@@ -186,6 +188,7 @@ func (h *Handler) First(c echo.Context) error {
 		"/" + photo.ThumbPath,
 		photo.Width,
 		photo.Height,
+		photo.FileSize,
 		photo.CreatedAt,
 	)
 
@@ -206,16 +209,17 @@ type UploadResponse struct {
 }
 
 type ResPhoto struct {
-	ID     uint   `json:"id"`
-	Url    string `json:"url"`
-	Img    string `json:"img"`
-	Thumb  string `json:"thumb"`
-	Width  int    `json:"width"`
-	Height int    `json:"height"`
-	Posted string `json:"posted"`
+	ID       uint   `json:"id"`
+	Url      string `json:"url"`
+	Img      string `json:"img"`
+	Thumb    string `json:"thumb"`
+	Width    int    `json:"width"`
+	Height   int    `json:"height"`
+	FileSize int    `json:"filesize"`
+	Posted   string `json:"posted"`
 }
 
-func newResPhoto(id uint, url, img, thumb string, width, height int, posted time.Time) *ResPhoto {
+func newResPhoto(id uint, url, img, thumb string, width, height, filesize int, posted time.Time) *ResPhoto {
 	p := new(ResPhoto)
 	p.ID = id
 	p.Url = url
@@ -223,6 +227,7 @@ func newResPhoto(id uint, url, img, thumb string, width, height int, posted time
 	p.Thumb = thumb
 	p.Width = width
 	p.Height = height
+	p.FileSize = filesize
 	p.Posted = posted.Format("2006-01-02 15:04:05 -07:00")
 	return p
 }
