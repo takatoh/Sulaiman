@@ -216,7 +216,7 @@ type ResPhoto struct {
 	Thumb    string `json:"thumb"`
 	Width    int    `json:"width"`
 	Height   int    `json:"height"`
-	FileSize int64  `json:"filesize"`
+	FileSize string `json:"filesize"`
 	Posted   string `json:"posted"`
 }
 
@@ -228,7 +228,7 @@ func newResPhoto(id uint, url, img, thumb string, width, height int, filesize in
 	p.Thumb = thumb
 	p.Width = width
 	p.Height = height
-	p.FileSize = filesize
+	p.FileSize = humanBytes(filesize)
 	p.Posted = posted.Format("2006-01-02 15:04:05 -07:00")
 	return p
 }
@@ -286,7 +286,7 @@ func humanBytes(filesize int64) string {
 
 	var hsize string
 	if size > 100.0 {
-		hsize = fmt.Sprintf("%d %s", size, units[u])
+		hsize = fmt.Sprintf("%.0f %s", size, units[u])
 	} else if size > 10.0 {
 		hsize = fmt.Sprintf("%.1f %s", size, units[u])
 	} else {
