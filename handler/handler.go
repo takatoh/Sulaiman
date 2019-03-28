@@ -58,6 +58,8 @@ func (h *Handler) List(c echo.Context) error {
 				buildURL(p.ImagePath, h.config),
 				"/" + p.ImagePath,
 				"/" + p.ThumbPath,
+				p.Width,
+				p.Height,
 				p.CreatedAt,
 			),
 		)
@@ -127,6 +129,8 @@ func (h *Handler) Upload(c echo.Context) error {
 			buildURL(img, h.config),
 			"/" + img,
 			"/" + thumb,
+			photo.Width,
+			photo.Height,
 			photo.CreatedAt,
 		),
 		DeletePhotoID: deletePhotoID,
@@ -177,6 +181,8 @@ func (h *Handler) First(c echo.Context) error {
 		buildURL(photo.ImagePath, h.config),
 		"/" + photo.ImagePath,
 		"/" + photo.ThumbPath,
+		photo.Width,
+		photo.Height,
 		photo.CreatedAt,
 	)
 
@@ -201,15 +207,19 @@ type ResPhoto struct {
 	Url    string `json:"url"`
 	Img    string `json:"img"`
 	Thumb  string `json:"thumb"`
+	Width  int    `json:"width"`
+	Height int    `json:"height"`
 	Posted string `json:"posted"`
 }
 
-func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
+func newResPhoto(id uint, url, img, thumb string, width, height int, posted time.Time) *ResPhoto {
 	p := new(ResPhoto)
 	p.ID = id
 	p.Url = url
 	p.Img = img
 	p.Thumb = thumb
+	p.Width = width
+	p.Height = height
 	p.Posted = posted.Format("2006-01-02 15:04:05 -07:00")
 	return p
 }
