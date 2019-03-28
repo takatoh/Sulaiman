@@ -109,7 +109,7 @@ func (h *Handler) Upload(c echo.Context) error {
 	photo.DeleteKey = deleteKey
 	photo.Width     = width
 	photo.Height    = height
-	photo.FileSize  = int(filesize)
+	photo.FileSize  = filesize
 	h.db.Save(&photo)
 
 	var photos []data.Photo
@@ -215,11 +215,11 @@ type ResPhoto struct {
 	Thumb    string `json:"thumb"`
 	Width    int    `json:"width"`
 	Height   int    `json:"height"`
-	FileSize int    `json:"filesize"`
+	FileSize int64  `json:"filesize"`
 	Posted   string `json:"posted"`
 }
 
-func newResPhoto(id uint, url, img, thumb string, width, height, filesize int, posted time.Time) *ResPhoto {
+func newResPhoto(id uint, url, img, thumb string, width, height int, filesize int64, posted time.Time) *ResPhoto {
 	p := new(ResPhoto)
 	p.ID = id
 	p.Url = url
