@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -58,6 +59,9 @@ func (h *Handler) List(c echo.Context) error {
 				buildURL(p.ImagePath, h.config),
 				"/" + p.ImagePath,
 				"/" + p.ThumbPath,
+				p.Width,
+				p.Height,
+				p.FileSize,
 				p.CreatedAt,
 			),
 		)
@@ -96,12 +100,17 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	_, _ = io.Copy(dst, src)
 
-	thumb := makeThumbnail(h.config.PhotoDir, img, newId)
+	f, _ := dst.Stat()
+	filesize := f.Size()
+	thumb, width, height := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
 	photo.ImagePath = img
 	photo.ThumbPath = thumb
 	photo.DeleteKey = deleteKey
+	photo.Width     = width
+	photo.Height    = height
+	photo.FileSize  = filesize
 	h.db.Save(&photo)
 
 	var photos []data.Photo
@@ -125,6 +134,9 @@ func (h *Handler) Upload(c echo.Context) error {
 			buildURL(img, h.config),
 			"/" + img,
 			"/" + thumb,
+			photo.Width,
+			photo.Height,
+			photo.FileSize,
 			photo.CreatedAt,
 		),
 		DeletePhotoID: deletePhotoID,
@@ -175,6 +187,9 @@ func (h *Handler) First(c echo.Context) error {
 		buildURL(photo.ImagePath, h.config),
 		"/" + photo.ImagePath,
 		"/" + photo.ThumbPath,
+		photo.Width,
+		photo.Height,
+		photo.FileSize,
 		photo.CreatedAt,
 	)
 
@@ -195,19 +210,25 @@ type UploadResponse struct {
 }
 
 type ResPhoto struct {
-	ID     uint   `json:"id"`
-	Url    string `json:"url"`
-	Img    string `json:"img"`
-	Thumb  string `json:"thumb"`
-	Posted string `json:"posted"`
+	ID       uint   `json:"id"`
+	Url      string `json:"url"`
+	Img      string `json:"img"`
+	Thumb    string `json:"thumb"`
+	Width    int    `json:"width"`
+	Height   int    `json:"height"`
+	FileSize string `json:"filesize"`
+	Posted   string `json:"posted"`
 }
 
-func newResPhoto(id uint, url, img, thumb string, posted time.Time) *ResPhoto {
+func newResPhoto(id uint, url, img, thumb string, width, height int, filesize int64, posted time.Time) *ResPhoto {
 	p := new(ResPhoto)
 	p.ID = id
 	p.Url = url
 	p.Img = img
 	p.Thumb = thumb
+	p.Width = width
+	p.Height = height
+	p.FileSize = humanBytes(filesize)
 	p.Posted = posted.Format("2006-01-02 15:04:05 -07:00")
 	return p
 }
@@ -221,7 +242,7 @@ type CountResponse struct {
 	Count int `json:"count"`
 }
 
-func makeThumbnail(photo_dir, src_file string, id int) string {
+func makeThumbnail(photo_dir, src_file string, id int) (string, int, int) {
 	src, _ := os.Open(photo_dir + "/" + src_file)
 	defer src.Close()
 
@@ -240,7 +261,7 @@ func makeThumbnail(photo_dir, src_file string, id int) string {
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
 
-	return thumb_file
+	return thumb_file, config.Width, config.Height
 }
 
 func buildURL(path string, config *data.Config) string {
@@ -252,4 +273,24 @@ func deletePhoto(photo data.Photo, config *data.Config) {
 	os.Remove(photo_dir + "/" + photo.ImagePath)
 	os.Remove(photo_dir + "/" + photo.ThumbPath)
 	return
+}
+
+func humanBytes(filesize int64) string {
+	size := float64(filesize)
+	units := []string{ "bytes", "KB", "MB" }
+	u := 0
+	for size >= 1000.0 {
+		u = u + 1
+		size = size / 1000.0
+	}
+
+	var hsize string
+	if size > 100.0 {
+		hsize = fmt.Sprintf("%.0f %s", size, units[u])
+	} else if size > 10.0 {
+		hsize = fmt.Sprintf("%.1f %s", size, units[u])
+	} else {
+		hsize = fmt.Sprintf("%.2f %s", size, units[u])
+	}
+	return hsize
 }
