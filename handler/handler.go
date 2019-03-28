@@ -96,12 +96,14 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	_, _ = io.Copy(dst, src)
 
-	thumb := makeThumbnail(h.config.PhotoDir, img, newId)
+	thumb, width, height := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
 	photo.ImagePath = img
 	photo.ThumbPath = thumb
 	photo.DeleteKey = deleteKey
+	photo.Width     = width
+	photo.Height    = height
 	h.db.Save(&photo)
 
 	var photos []data.Photo
@@ -221,7 +223,7 @@ type CountResponse struct {
 	Count int `json:"count"`
 }
 
-func makeThumbnail(photo_dir, src_file string, id int) string {
+func makeThumbnail(photo_dir, src_file string, id int) (string, int, int) {
 	src, _ := os.Open(photo_dir + "/" + src_file)
 	defer src.Close()
 
@@ -240,7 +242,7 @@ func makeThumbnail(photo_dir, src_file string, id int) string {
 	jpeg.Encode(thumb, resized_img, nil)
 	thumb.Close()
 
-	return thumb_file
+	return thumb_file, config.Width, config.Height
 }
 
 func buildURL(path string, config *data.Config) string {
