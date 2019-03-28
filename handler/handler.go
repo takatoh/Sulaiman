@@ -98,6 +98,8 @@ func (h *Handler) Upload(c echo.Context) error {
 
 	_, _ = io.Copy(dst, src)
 
+	f, _ := dst.Stat()
+	filesize := f.Size()
 	thumb, width, height := makeThumbnail(h.config.PhotoDir, img, newId)
 
 	deleteKey := c.FormValue("key")
@@ -106,6 +108,7 @@ func (h *Handler) Upload(c echo.Context) error {
 	photo.DeleteKey = deleteKey
 	photo.Width     = width
 	photo.Height    = height
+	photo.FileSize  = int(filesize)
 	h.db.Save(&photo)
 
 	var photos []data.Photo
