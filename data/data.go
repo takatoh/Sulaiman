@@ -9,6 +9,9 @@ type Photo struct {
 	ImagePath string
 	ThumbPath string
 	DeleteKey string
+	Width     int
+	Heihgt    int
+	FileSize  int
 }
 
 type Config struct {
