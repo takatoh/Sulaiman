@@ -11,7 +11,7 @@ type Photo struct {
 	DeleteKey string
 	Width     int
 	Height    int
-	FileSize  int
+	FileSize  int64
 }
 
 type Config struct {
