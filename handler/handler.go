@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/jinzhu/gorm"
@@ -272,4 +273,24 @@ func deletePhoto(photo data.Photo, config *data.Config) {
 	os.Remove(photo_dir + "/" + photo.ImagePath)
 	os.Remove(photo_dir + "/" + photo.ThumbPath)
 	return
+}
+
+func humanBytes(filesize int64) string {
+	size := float64(filesize)
+	units := []string{ "bytes", "KB", "MB" }
+	u := 0
+	for size >= 1000.0 {
+		u = u + 1
+		size = size / 1000.0
+	}
+
+	var hsize string
+	if size > 100.0 {
+		hsize = fmt.Sprintf("%d %s", size, units[u])
+	} else if size > 10.0 {
+		hsize = fmt.Sprintf("%.1f %s", size, units[u])
+	} else {
+		hsize = fmt.Sprintf("%.2f %s", size, units[u])
+	}
+	return hsize
 }
