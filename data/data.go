@@ -10,7 +10,7 @@ type Photo struct {
 	ThumbPath string
 	DeleteKey string
 	Width     int
-	Heihgt    int
+	Height    int
 	FileSize  int
 }
 
