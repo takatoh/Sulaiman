@@ -12,17 +12,17 @@
 
   <body>
     <header>
-      <div id="header_content">
+      <div id="header-content">
         <h1><a href="/"></a></h1>
       </div>
 
-      <div id="button_box">
+      <div id="button-box">
         <button id="upload" class="ui-button ui-widget ui-corner-all">UPLOAD</button>
         <button id="delete" class="ui-button ui-widget ui-corner-all">DELETE</button>
       </div>
 
-      <div id="upload_dialog" title="Upload photo">
-        <form id="upload_form">
+      <div id="upload-dialog" title="Upload photo">
+        <form id="upload-form">
           <fieldset>
             <label for="file">File</label>
             <input type="file" name="file" class="text ui-widget-content ui-corner-all">
@@ -32,8 +32,8 @@
         </form>
       </div>
 
-      <div id="delete_dialog" title="Delete photo">
-        <form id="delete_form">
+      <div id="delete-dialog" title="Delete photo">
+        <form id="delete-form">
           <fieldset>
             <label for="id">ID</label>
             <input type="number" name="id" class="text ui-widget-content ui-corner-all">
@@ -45,20 +45,20 @@
     </header>
 
     <div id="content">
-      <table id="photo_list">
+      <table id="photo-list">
         <thead>
           <tr>
-            <th class="id_col">ID</th>
-            <th class="thunb_col">Thumb</th>
-            <th class="url_col">Details</th>
+            <th class="id-col">ID</th>
+            <th class="thunb-col">Thumb</th>
+            <th class="url-col">Details</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="photo in photoList">
-            <td class="id_field">
+            <td class="id-field">
               {{ photo.id }}
             </td>
-            <td><div class="thumb_box">
+            <td><div class="thumb-box">
               <a v-bind:href="photo.img" target="_blank">
                 <img v-bind:src="photo.thumb" />
               </a>
@@ -73,7 +73,7 @@
       </table>
 
       <div id="next">
-        <a id="next_link" href="/list/1">Next</a>
+        <a id="next-link" href="/list/1">Next</a>
       </div>
     </div>
   </body>
