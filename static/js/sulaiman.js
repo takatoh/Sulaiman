@@ -1,10 +1,10 @@
-$(function() {
+$(() => {
   let app;
   let uploadDialog;
   let deleteDialog;
   let triggerFlag = false;
 
-  function upload(event) {
+  const upload = (event) => {
     const ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
       alert("Unsupported format!\nSupport only jpg, png, gif.");
@@ -18,11 +18,11 @@ $(function() {
         contentType: false,
         processData: false,
         dataType: "json"
-      }).done(function(response) {
+      }).done((response) => {
         clearUploadVals();
         app.photoList.unshift(response.photo);
         if (response.deletePhotoId > 0) {
-          app.photoList = app.photoList.filter(function(p){
+          app.photoList = app.photoList.filter((p) => {
             return p.id != response.deletePhotoId;
           });
         }
@@ -31,12 +31,12 @@ $(function() {
     }
   }
 
-  function clearUploadVals() {
+  const clearUploadVals = () => {
     $("#upload-form input[name=file]").val("");
     $("#upload-form input[name=key]").val("");
   }
 
-  function deletePhoto(event) {
+  const deletePhoto = (event) => {
     const fd = new FormData($("#delete-form").get(0));
     $.ajax({
       url: "/delete",
@@ -45,10 +45,10 @@ $(function() {
       contentType: false,
       processData: false,
       dataType: "json"
-    }).done(function(response) {
+    }).done((response) => {
       if (response.status == "OK") {
         clearDeleteVals();
-        app.photoList.some(function(v, i) {
+        app.photoList.some((v, i) => {
           if (v.id == response.photoId) {
             app.photoList.splice(i, 1);
           }
@@ -62,7 +62,7 @@ $(function() {
     });
   }
 
-  function clearDeleteVals() {
+  const clearDeleteVals = () => {
     $("#delete-form input[name=id]").val("");
     $("#delete-form input[name=key]").val("");
   }
@@ -71,7 +71,7 @@ $(function() {
     type: "GET",
     url: "/title",
     dataType: "text"
-  }).done(function(response) {
+  }).done((response) => {
     $("head title").text(response)
     $("h1 a").text(response);
   });
@@ -81,7 +81,7 @@ $(function() {
     type: "GET",
     url: nextUrl,
     dataType: "json"
-  }).done(function(response) {
+  }).done((response) => {
     if (response.photos) {
       photoList = response.photos;
     } else {
@@ -108,14 +108,14 @@ $(function() {
     width: 350,
     buttons: {
       Upload: upload,
-      Cancel: function() {
+      Cancel: () => {
         clearUploadVals();
         uploadDialog.dialog("close");
       }
     }
   });
 
-  $("#upload").button().on("click", function() {
+  $("#upload").button().on("click", () => {
     uploadDialog.dialog("open");
   });
 
@@ -127,18 +127,18 @@ $(function() {
     width: 300,
     buttons: {
       Delete: deletePhoto,
-      Cancel: function() {
+      Cancel: () => {
         clearDeleteVals();
         deleteDialog.dialog("close");
       }
     }
   });
 
-  $("#delete").button().on("click", function() {
+  $("#delete").button().on("click", () => {
     deleteDialog.dialog("open");
   });
 
-  $(window).on("load scroll", function() {
+  $(window).on("load scroll", () => {
     const documentHeight = $(document).height();
     const scrollBottomPosition = $(window).height() + $(window).scrollTop();
     const triggerPoint = documentHeight - scrollBottomPosition;
@@ -149,9 +149,9 @@ $(function() {
         type: "GET",
         url: nextUrl,
         dataType: "json"
-      }).done(function(response) {
+      }).done((response) => {
         if (response.photos) {
-          response.photos.forEach(function(v) { app.photoList.push(v); });
+          response.photos.forEach((v) => { app.photoList.push(v); });
         }
         if (response.next) {
           $("#next-link").attr("href", response.next);
