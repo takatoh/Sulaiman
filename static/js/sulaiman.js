@@ -50,9 +50,9 @@ $(function() {
     }).done(function(response) {
       if (response.status == "OK") {
         clearDeleteVals();
-        photoList.some(function(v, i) {
+        app.photoList.some(function(v, i) {
           if (v.id == response.photo_id) {
-            photoList.splice(i, 1);
+            app.photoList.splice(i, 1);
           }
         });
         alert("Deleted: " + response.photo_id);
@@ -128,7 +128,7 @@ $(function() {
     resizable: false,
     width: 300,
     buttons: {
-      Delete: delete_photo,
+      Delete: deletePhoto,
       Cancel: function() {
         clearDeleteVals();
         delete_dialog.dialog("close");
