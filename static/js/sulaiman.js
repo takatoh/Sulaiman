@@ -1,9 +1,8 @@
-let app;
-let triggerFlag = false;
-
 $(function() {
+  let app;
   let uploadDialog;
   let deleteDialog;
+  let triggerFlag = false;
 
   function upload(event) {
     let ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
