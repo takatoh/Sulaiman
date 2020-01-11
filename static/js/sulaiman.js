@@ -7,12 +7,12 @@ $(function() {
   let delete_dialog;
 
   function upload(event) {
-    let ext = $("#upload_form input[name=file]").val().split(".").pop().toLowerCase();
+    let ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
       alert("Unsupported format!\nSupport only jpg, png, gif.");
       clear_upload_vals();
     } else {
-      let fd = new FormData($("#upload_form").get(0));
+      let fd = new FormData($("#upload-form").get(0));
       $.ajax({
         url: "/upload",
         type: "POST",
@@ -39,7 +39,7 @@ $(function() {
   }
 
   function delete_photo(event) {
-    let fd = new FormData($("#delete_form").get(0));
+    let fd = new FormData($("#delete-form").get(0));
     $.ajax({
       url: "/delete",
       type: "DELETE",
@@ -65,8 +65,8 @@ $(function() {
   }
 
   function clear_delete_vals() {
-    $("#delete_form input[name=id]").val("");
-    $("#delete_form input[name=key]").val("");
+    $("#delete-form input[name=id]").val("");
+    $("#delete-form input[name=key]").val("");
   }
 
   $.ajax({
@@ -78,7 +78,7 @@ $(function() {
     $("h1 a").text(response);
   });
 
-  let next_url = $("#next_link").attr("href");
+  let next_url = $("#next-link").attr("href");
   $.ajax({
     type: "GET",
     url: next_url,
@@ -96,13 +96,13 @@ $(function() {
       }
     });
     if (response.next) {
-      $("#next_link").attr("href", response.next);
+      $("#next-link").attr("href", response.next);
     } else {
-      $("#next_link").remove();
+      $("#next-link").remove();
     }
   });
 
-  upload_dialog = $("#upload_dialog").dialog({
+  upload_dialog = $("#upload-dialog").dialog({
     autoOpen: false,
     modal: true,
     draggable: false,
@@ -121,7 +121,7 @@ $(function() {
     upload_dialog.dialog("open");
   });
 
-  delete_dialog = $("#delete_dialog").dialog({
+  delete_dialog = $("#delete-dialog").dialog({
     autoOpen: false,
     modal: true,
     draggable: false,
@@ -146,7 +146,7 @@ $(function() {
     let triggerPoint = documentHeight - scrollBottomPosition;
     if (!triggerFlag && triggerPoint <= 50) {
       triggerFlag = true;
-      let next_url = $("#next_link").attr("href");
+      let next_url = $("#next-link").attr("href");
       $.ajax({
         type: "GET",
         url: next_url,
@@ -156,9 +156,9 @@ $(function() {
           response.photos.forEach(function(v) { app.photoList.push(v); });
         }
         if (response.next) {
-          $("#next_link").attr("href", response.next);
+          $("#next-link").attr("href", response.next);
         } else {
-          $("#next_link").remove();
+          $("#next-link").remove();
         }
       });
     }
