@@ -206,7 +206,7 @@ type ListResponse struct {
 type UploadResponse struct {
 	Status        string    `json:"status"`
 	Photo         *ResPhoto `json:"photo"`
-	DeletePhotoID uint      `json:"delete_photo_id"`
+	DeletePhotoID uint      `json:"deletePhotoId"`
 }
 
 type ResPhoto struct {
@@ -235,7 +235,7 @@ func newResPhoto(id uint, url, img, thumb string, width, height int, filesize in
 
 type DeleteResponse struct {
 	Status  string `json:"status"`
-	PhotoID uint   `json:"photo_id"`
+	PhotoID uint   `json:"photoId"`
 }
 
 type CountResponse struct {

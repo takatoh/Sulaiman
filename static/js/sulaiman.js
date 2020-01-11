@@ -21,9 +21,9 @@ $(function() {
       }).done(function(response) {
         clearUploadVals();
         app.photoList.unshift(response.photo);
-        if (response.delete_photo_id > 0) {
+        if (response.deletePhotoId > 0) {
           app.photoList = app.photoList.filter(function(p){
-            return p.id != response.delete_photo_id;
+            return p.id != response.deletePhotoId;
           });
         }
         uploadDialog.dialog("close");
@@ -49,14 +49,14 @@ $(function() {
       if (response.status == "OK") {
         clearDeleteVals();
         app.photoList.some(function(v, i) {
-          if (v.id == response.photo_id) {
+          if (v.id == response.photoId) {
             app.photoList.splice(i, 1);
           }
         });
-        alert("Deleted: " + response.photo_id);
+        alert("Deleted: " + response.photoId);
       } else {
         clearDeleteVals();
-        alert("Error! CAN'T delete: " + response.photo_id);
+        alert("Error! CAN'T delete: " + response.photoId);
       }
       deleteDialog.dialog("close");
     });
