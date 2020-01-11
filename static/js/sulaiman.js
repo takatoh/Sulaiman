@@ -1,5 +1,4 @@
 let app;
-let photoList;
 let triggerFlag = false;
 
 $(function() {
