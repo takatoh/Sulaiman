@@ -22,7 +22,7 @@ $(function() {
         dataType: "json"
       }).done(function(response) {
         clear_upload_vals();
-        photoList.unshift(response.photo);
+        app.photoList.unshift(response.photo);
         if (response.delete_photo_id > 0) {
           app.photoList = app.photoList.filter(function(p){
             return p.id != response.delete_photo_id;
