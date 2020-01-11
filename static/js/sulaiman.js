@@ -34,8 +34,8 @@ $(function() {
   }
 
   function clearUploadVals() {
-    $("input[name=file]").val("");
-    $("input[name=key]").val("");
+    $("#upload-form input[name=file]").val("");
+    $("#upload-form input[name=key]").val("");
   }
 
   function deletePhoto(event) {
