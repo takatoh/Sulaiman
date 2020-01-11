@@ -10,7 +10,7 @@ $(function() {
     let ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
       alert("Unsupported format!\nSupport only jpg, png, gif.");
-      clear_upload_vals();
+      clearUploadVals();
     } else {
       let fd = new FormData($("#upload-form").get(0));
       $.ajax({
@@ -21,7 +21,7 @@ $(function() {
         processData: false,
         dataType: "json"
       }).done(function(response) {
-        clear_upload_vals();
+        clearUploadVals();
         app.photoList.unshift(response.photo);
         if (response.delete_photo_id > 0) {
           app.photoList = app.photoList.filter(function(p){
@@ -33,12 +33,12 @@ $(function() {
     }
   }
 
-  function clear_upload_vals() {
+  function clearUploadVals() {
     $("input[name=file]").val("");
     $("input[name=key]").val("");
   }
 
-  function delete_photo(event) {
+  function deletePhoto(event) {
     let fd = new FormData($("#delete-form").get(0));
     $.ajax({
       url: "/delete",
@@ -49,7 +49,7 @@ $(function() {
       dataType: "json"
     }).done(function(response) {
       if (response.status == "OK") {
-        clear_delete_vals();
+        clearDeleteVals();
         photoList.some(function(v, i) {
           if (v.id == response.photo_id) {
             photoList.splice(i, 1);
@@ -57,14 +57,14 @@ $(function() {
         });
         alert("Deleted: " + response.photo_id);
       } else {
-        clear_delete_vals();
+        clearDeleteVals();
         alert("Error! CAN'T delete: " + response.photo_id);
       }
       delete_dialog.dialog("close");
     });
   }
 
-  function clear_delete_vals() {
+  function clearDeleteVals() {
     $("#delete-form input[name=id]").val("");
     $("#delete-form input[name=key]").val("");
   }
@@ -111,7 +111,7 @@ $(function() {
     buttons: {
       Upload: upload,
       Cancel: function() {
-        clear_upload_vals();
+        clearUploadVals();
         upload_dialog.dialog("close");
       }
     }
@@ -130,7 +130,7 @@ $(function() {
     buttons: {
       Delete: delete_photo,
       Cancel: function() {
-        clear_delete_vals();
+        clearDeleteVals();
         delete_dialog.dialog("close");
       }
     }
