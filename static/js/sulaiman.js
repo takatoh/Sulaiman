@@ -2,8 +2,8 @@ let app;
 let triggerFlag = false;
 
 $(function() {
-  let upload_dialog;
-  let delete_dialog;
+  let uploadDialog;
+  let deleteDialog;
 
   function upload(event) {
     let ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
@@ -27,7 +27,7 @@ $(function() {
             return p.id != response.delete_photo_id;
           });
         }
-        upload_dialog.dialog("close");
+        uploadDialog.dialog("close");
       });
     }
   }
@@ -59,7 +59,7 @@ $(function() {
         clearDeleteVals();
         alert("Error! CAN'T delete: " + response.photo_id);
       }
-      delete_dialog.dialog("close");
+      deleteDialog.dialog("close");
     });
   }
 
@@ -77,10 +77,10 @@ $(function() {
     $("h1 a").text(response);
   });
 
-  let next_url = $("#next-link").attr("href");
+  let nextUrl = $("#next-link").attr("href");
   $.ajax({
     type: "GET",
-    url: next_url,
+    url: nextUrl,
     dataType: "json"
   }).done(function(response) {
     if (response.photos) {
@@ -101,7 +101,7 @@ $(function() {
     }
   });
 
-  upload_dialog = $("#upload-dialog").dialog({
+  uploadDialog = $("#upload-dialog").dialog({
     autoOpen: false,
     modal: true,
     draggable: false,
@@ -111,16 +111,16 @@ $(function() {
       Upload: upload,
       Cancel: function() {
         clearUploadVals();
-        upload_dialog.dialog("close");
+        uploadDialog.dialog("close");
       }
     }
   });
 
   $("#upload").button().on("click", function() {
-    upload_dialog.dialog("open");
+    uploadDialog.dialog("open");
   });
 
-  delete_dialog = $("#delete-dialog").dialog({
+  deleteDialog = $("#delete-dialog").dialog({
     autoOpen: false,
     modal: true,
     draggable: false,
@@ -130,13 +130,13 @@ $(function() {
       Delete: deletePhoto,
       Cancel: function() {
         clearDeleteVals();
-        delete_dialog.dialog("close");
+        deleteDialog.dialog("close");
       }
     }
   });
 
   $("#delete").button().on("click", function() {
-    delete_dialog.dialog("open");
+    deleteDialog.dialog("open");
   });
 
   $(window).on("load scroll", function() {
@@ -145,10 +145,10 @@ $(function() {
     let triggerPoint = documentHeight - scrollBottomPosition;
     if (!triggerFlag && triggerPoint <= 50) {
       triggerFlag = true;
-      let next_url = $("#next-link").attr("href");
+      let nextUrl = $("#next-link").attr("href");
       $.ajax({
         type: "GET",
-        url: next_url,
+        url: nextUrl,
         dataType: "json"
       }).done(function(response) {
         if (response.photos) {
