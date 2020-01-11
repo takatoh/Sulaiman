@@ -5,12 +5,12 @@ $(function() {
   let triggerFlag = false;
 
   function upload(event) {
-    let ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
+    const ext = $("#upload-form input[name=file]").val().split(".").pop().toLowerCase();
     if ($.inArray(ext, ["jpg", "jpeg", "png", "gif"]) == -1) {
       alert("Unsupported format!\nSupport only jpg, png, gif.");
       clearUploadVals();
     } else {
-      let fd = new FormData($("#upload-form").get(0));
+      const fd = new FormData($("#upload-form").get(0));
       $.ajax({
         url: "/upload",
         type: "POST",
@@ -37,7 +37,7 @@ $(function() {
   }
 
   function deletePhoto(event) {
-    let fd = new FormData($("#delete-form").get(0));
+    const fd = new FormData($("#delete-form").get(0));
     $.ajax({
       url: "/delete",
       type: "DELETE",
@@ -76,7 +76,7 @@ $(function() {
     $("h1 a").text(response);
   });
 
-  let nextUrl = $("#next-link").attr("href");
+  const nextUrl = $("#next-link").attr("href");
   $.ajax({
     type: "GET",
     url: nextUrl,
@@ -139,12 +139,12 @@ $(function() {
   });
 
   $(window).on("load scroll", function() {
-    let documentHeight = $(document).height();
-    let scrollBottomPosition = $(window).height() + $(window).scrollTop();
-    let triggerPoint = documentHeight - scrollBottomPosition;
+    const documentHeight = $(document).height();
+    const scrollBottomPosition = $(window).height() + $(window).scrollTop();
+    const triggerPoint = documentHeight - scrollBottomPosition;
     if (!triggerFlag && triggerPoint <= 50) {
       triggerFlag = true;
-      let nextUrl = $("#next-link").attr("href");
+      const nextUrl = $("#next-link").attr("href");
       $.ajax({
         type: "GET",
         url: nextUrl,
