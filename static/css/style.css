@@ -16,12 +16,12 @@ header {
   background-color: white;
 }
 
-header #header_content {
+header #header-content {
   width: 900px;
   margin: auto;
 }
 
-header #header_content h1 {
+header #header-content h1 {
   margin: 20px;
   width: 450px;
   height: 120px;
@@ -29,12 +29,12 @@ header #header_content h1 {
   font-family: 'Vollkorn', serif;
 }
 
-header #header_content h1 a {
+header #header-content h1 a {
   text-decoration: none;
   color: black;
 }
 
-header #button_box {
+header #button-box {
   float: left;
   margin-top: 50px;
   margin-left: 150px;
@@ -71,7 +71,7 @@ fieldset {
   padding: 5px;
 }
 
-#content table td.id_field {
+#content table td.id-field {
   text-align: center;
 }
 
@@ -84,15 +84,15 @@ fieldset {
   text-decoration: underline;
 }
 
-#content table .thubm_col {
+#content table .thubm-col {
   width: 130px;
 }
 
-#content table .url_col {
+#content table .url-col {
   width: 450px;
 }
 
-#content table td .thumb_box {
+#content table td .thumb-box {
   width: 120px;
   height: 120px;
   display: flex;
