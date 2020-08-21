@@ -5,19 +5,21 @@ A simple photo uploader.
 シンプルな画像アップローダーです。スライマーンと読んでください。
 
 ## Install
+
 Github からクローンして
 
-``` git clone https://github.com/takatoh/sulaiman.git```
+    $ git clone https://github.com/takatoh/sulaiman.git
 
 依存ライブラリをインストールします。
 
-``` dep ensure```
+    $ dep ensure
 
 go build します。
 
-``` go build```
+    $ go build
 
 ## Usage
+
 ビルドしてできた実行ファイルと config.json.example、それから static をディレクトリごと
 適当なディレクトリにコピーします。
 
@@ -36,7 +38,8 @@ confing.json.exmaple を config.json にリネームして、適当に編集し�
 
 あとは実行するだけです。
 
-``` sulaiman```
+    $ sulaiman
 
 ## License
+
 MIT License
