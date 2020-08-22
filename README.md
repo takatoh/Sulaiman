@@ -14,7 +14,7 @@ Github からクローンして
 
     $ dep ensure
 
-go build します。
+`go build` します。
 
     $ go build
 
