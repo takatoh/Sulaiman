@@ -6,13 +6,9 @@ A simple photo uploader.
 
 ## Install
 
-Github からクローンして
+GitHub からクローンして
 
     $ git clone https://github.com/takatoh/sulaiman.git
-
-依存ライブラリをインストールします。
-
-    $ dep ensure
 
 `go build` します。
 
@@ -38,7 +34,7 @@ confing.json.exmaple を config.json にリネームして、適当に編集し�
 
 あとは実行するだけです。
 
-    $ sulaiman
+    $ ./sulaiman
 
 ## License
 
