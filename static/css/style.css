@@ -22,10 +22,12 @@ header #header-content {
 }
 
 header #header-content h1 {
-  margin: 20px;
+  margin: 0px;
   width: 450px;
   height: 120px;
   float: left;
+  display: flex;
+  align-items: center;
   font-family: 'Vollkorn', serif;
 }
 
