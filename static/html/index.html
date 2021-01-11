@@ -59,12 +59,12 @@
               {{ photo.id }}
             </td>
             <td><div class="thumb-box">
-              <a v-bind:href="photo.img" target="_blank">
+              <a v-bind:href="photo.img" target="_blank" rel="noopener noreferrer">
                 <img v-bind:src="photo.thumb" />
               </a>
             </div></td>
             <td>
-              URL: <a v-bind:href="photo.img" target="_blank">{{ photo.url }}</a><br />
+              URL: <a v-bind:href="photo.img" target="_blank" rel="noopener noreferrer">{{ photo.url }}</a><br />
               Size: {{ photo.width }}x{{ photo.height }} ({{ photo.filesize }})<br />
               Posted: {{ photo.posted }}
             </td>
