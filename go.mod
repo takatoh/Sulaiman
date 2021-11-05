@@ -1,18 +1,27 @@
 module github.com/takatoh/sulaiman
 
-go 1.15
+go 1.17
 
 require (
 	github.com/jinzhu/gorm v1.9.1
-	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a
 	github.com/labstack/echo v3.3.5+incompatible
-	github.com/labstack/gommon v0.2.2-0.20180426014445-588f4e8bddc6
-	github.com/mattn/go-colorable v0.0.9
-	github.com/mattn/go-isatty v0.0.3
-	github.com/mattn/go-sqlite3 v1.6.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
-	github.com/valyala/bytebufferpool v1.0.0
-	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4
-	golang.org/x/crypto v0.0.0-20180509205747-2d027ae1dddd
-	golang.org/x/sys v0.0.0-20180510032850-7dfd1290c791
+)
+
+require (
+	github.com/denisenkom/go-mssqldb v0.11.0 // indirect
+	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
+	github.com/jinzhu/now v1.1.2 // indirect
+	github.com/labstack/gommon v0.2.2-0.20180426014445-588f4e8bddc6 // indirect
+	github.com/lib/pq v1.10.3 // indirect
+	github.com/mattn/go-colorable v0.0.9 // indirect
+	github.com/mattn/go-isatty v0.0.3 // indirect
+	github.com/mattn/go-sqlite3 v1.6.0 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
+	golang.org/x/crypto v0.0.0-20190325154230-a5d413f7728c // indirect
+	golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a // indirect
 )
